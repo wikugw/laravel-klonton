@@ -18,7 +18,9 @@ Route::get('/', function () {
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth']], function () {
+    Route::get('stores/{id}/activate', 'StoreController@activate')->name('stores.activate');
     Route::resource('stores', 'StoreController');
+    Route::resource('categories', 'CategoryController');
 });
 
 Auth::routes();

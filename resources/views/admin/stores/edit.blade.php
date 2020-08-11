@@ -10,13 +10,16 @@
                     </div>
                     <div class="card-body">
                         @include('admin.partials.flash', ['$errors' => $errors])
-                        <form action="{{ route('stores.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('stores.update', $store->id) }}" method="POST" enctype="multipart/form-data">
+                            @method('PUT')
                             @csrf
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="name">Nama Toko</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama toko anda">
+                                        <input  type="text" class="form-control" id="name" name="name"
+                                                value="{{ old('name') ? old('name') : $store->name }}"
+                                                placeholder="Masukkan nama toko anda">
                                         <span class="mt-2 d-block">* Wajib diisi.</span>
                                     </div>
                                     <div class="form-group">
@@ -33,7 +36,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="deskripsi">Deskripsi Toko</label>
-                                        <textarea class="form-control" id="deskripsi" name="description" rows="3"></textarea>
+                                        <textarea class="form-control" id="deskripsi" name="description" rows="10">{{ old('description') ? old('description') : $store->description }}</textarea>
                                         <span class="mt-2 d-block">* Wajib diisi.</span>
                                     </div>
                                 </div>

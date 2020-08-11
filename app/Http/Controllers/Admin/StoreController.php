@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Store;
+use App\Models\User;
+use App\Http\Requests\StoreRequest;
+
+use Str;
+use Auth;
+use Session;
 
 class StoreController extends Controller
 {
@@ -36,9 +42,39 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $params = $request->except('_token');
+        $params['slug'] = Str::slug($params['name']);
+        $params['user_id'] = Auth::user()->id;
+        $params['is_active'] = '0';
+
+        if ($request->has('profile_toko') && $request->profile_toko != "undefined") {
+            $profile_toko = $request->file('profile_toko');
+            $extension = $profile_toko->getClientOriginalExtension();
+            $filename = $params['slug'] . time() . '.' . $extension;
+            $profile_toko->storeAs('public/profile_toko', $filename);
+            $path_profile_toko = 'storage/profile_toko' . '/' . $filename;
+        }
+
+        if ($request->has('foto_ktp') && $request->foto_ktp != "undefined") {
+            $foto_ktp = $request->file('foto_ktp');
+            $extension = $foto_ktp->getClientOriginalExtension();
+            $filename = $params['slug'] . time() . '.' . $extension;
+            $foto_ktp->storeAs('public/foto_ktp', $filename);
+            $path_foto_ktp = 'storage/foto_ktp' . '/' . $filename;
+        }
+
+        $params['profile'] = $path_profile_toko;
+        $params['foto_ktp'] = $path_foto_ktp;
+
+        if (Store::create($params)) {
+            Session::flash('success', 'Toko telah dibuat, menunggu persetujuan admin');
+        } else {
+            Session::flash('error', 'Tidak dapat membuat toko, coba ulangi');
+        }
+
+        return redirect()->route('stores.show', $params['user_id']);
     }
 
     /**
@@ -49,7 +85,8 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->data['store'] = Store::findOrFail($id);
+        return view('admin.stores.show', $this->data);
     }
 
     /**
@@ -60,7 +97,8 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->data['store'] = Store::findOrFail($id);
+        return view('admin.stores.edit', $this->data);
     }
 
     /**
@@ -70,9 +108,38 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreRequest $request, $id)
     {
-        //
+        $params = $request->except('_token');
+        $params['slug'] = Str::slug($params['name']);
+
+        if ($request->has('profile_toko') && $request->profile_toko != "undefined") {
+            $profile_toko = $request->file('profile_toko');
+            $extension = $profile_toko->getClientOriginalExtension();
+            $filename = $params['slug'] . time() . '.' . $extension;
+            $profile_toko->storeAs('public/profile_toko', $filename);
+            $path_profile_toko = 'storage/profile_toko' . '/' . $filename;
+            $params['profile'] = $path_profile_toko;
+        }
+
+        if ($request->has('foto_ktp') && $request->foto_ktp != "undefined") {
+            $foto_ktp = $request->file('foto_ktp');
+            $extension = $foto_ktp->getClientOriginalExtension();
+            $filename = $params['slug'] . time() . '.' . $extension;
+            $foto_ktp->storeAs('public/foto_ktp', $filename);
+            $path_foto_ktp = 'storage/foto_ktp' . '/' . $filename;
+            $params['foto_ktp'] = $path_foto_ktp;
+        }
+
+        $store = Store::findOrFail($id);
+
+        if ($store->update($params)) {
+            Session::flash('success', 'Toko telah dibuat, menunggu persetujuan admin');
+        } else {
+            Session::flash('error', 'Tidak dapat membuat toko, coba ulangi');
+        }
+
+        return redirect()->route('stores.show', $id);
     }
 
     /**
@@ -83,6 +150,20 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $store = Store::findOrfail($id);
+        if ($store->delete()) {
+            Session::flash('success', 'Toko berhasil dihapus!');
+        }
+
+        return redirect()->route('stores.index');
+    }
+
+    public function activate($id)
+    {
+        $params = Store::findOrFail($id);
+        $params->is_active = '1';
+        $params->save();
+        Session::flash('success', 'Toko telah diaktivasi');
+        return redirect()->route('stores.index');
     }
 }

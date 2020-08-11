@@ -18,4 +18,9 @@ class Store extends Model
         'is_active',
         'foto_ktp'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
