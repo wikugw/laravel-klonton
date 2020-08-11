@@ -73,8 +73,8 @@
                 </a>
               </li>
               <li>
-                <a href="#">
-                  <i class="mdi mdi-email"></i> Message
+                <a href="{{ route('products.create') }}">
+                  <i class="mdi mdi-clipboard"></i> Tambah Produk
                 </a>
               </li>
               <li>

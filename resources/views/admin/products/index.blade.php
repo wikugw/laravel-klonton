@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <div class="card card-default">
                     <div class="card-header card-header-border-bottom">
-                        <h2>Toko</h2>
+                        <h2>Produk</h2>
                     </div>
 
                     {{-- session sukses --}}
@@ -17,38 +17,44 @@
                             <thead>
                               <tr>
                               <th>#</th>
-                              <th>Nama Toko</th>
-                              <th>User</th>
-                              <th>Status</th>
+                              <th>Nama Produk</th>
+                              <th>Kategori</th>
+                              <th>Berat</th>
+                              <th>Harga</th>
+                              <th>Tersedia</th>
+                              <th>Toko</th>
                               <th>Action</th>
                              </tr>
                             </thead>
 
                             <tbody>
-                                @forelse ($stores as $store)
+                                @forelse ($products as $product)
                                     <tr>
-                                        <td>{{ $store->id }}</td>
-                                        <td>{{ $store->name }}</td>
-                                        <td>{{ $store->user->name }}</td>
+                                        <td>{{ $product->id }}</td>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->category->name }}</td>
+                                        <td>{{ $product->weight }}</td>
+                                        <td>{{ $product->price }}</td>
                                         <td>
-                                            @if ($store->is_active == '0')
-                                                <span class="badge badge-warning">Pending</span>
+                                            @if ($product->is_available == '0')
+                                                <span class="badge badge-danger">Habis</span>
                                             @else
-                                                <span class="badge badge-success">Active</span>
+                                                <span class="badge badge-success">Tersedia</span>
                                             @endif
                                         </td>
+                                        <td>{{ $product->store->name }}</td>
                                         <td>
-                                            @if ($store->is_active == '0')
-                                            <a  href="{{ route('stores.activate', $store->id) }}"
+                                            @if ($product->is_active == '0')
+                                            <a  href="{{ route('products.activate', $store->id) }}"
                                                 class="btn btn-sm btn-primary"
                                                 onclick="return confirm('Yakin ingin mengaktifkan toko?');"
                                             >
                                                 <span class="mdi mdi-check"></span>
                                             </a>
                                             @endif
-                                            <a  href="{{ route('stores.edit', $store->id) }}" class="btn btn-sm btn-success"><span class="mdi mdi-pencil"></span></a>
-                                            <a  href="{{ route('stores.show', $store->id) }}" class="btn btn-sm btn-info"><span class="mdi mdi-eye"></span></a>
-                                            <form action="{{ route('stores.destroy', $store->id) }}" method="post" class="d-inline">
+                                            <a  href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-success"><span class="mdi mdi-pencil"></span></a>
+                                            <a  href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-info"><span class="mdi mdi-eye"></span></a>
+                                            <form action="{{ route('products.destroy', $product->id) }}" method="post" class="d-inline">
                                                 @method('delete')
                                                 @csrf
                                                 <button class="btn btn-sm btn-danger"
@@ -60,7 +66,7 @@
                                         </td>
                                     </tr>
                                 @empty
-                                <td class="text-center" colspan="5"> Toko tidak ditemukan </td>
+                                <td class="text-center" colspan="8"> Produk tidak ditemukan </td>
                                 @endforelse
                             </tbody>
                            </table>

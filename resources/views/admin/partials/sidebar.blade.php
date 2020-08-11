@@ -36,8 +36,8 @@
 								</a>
 							</li>
 							<li>
-								<a class="sidenav-item-link">
-								<span class="nav-text">Attributes</span>
+								<a class="sidenav-item-link" href="{{ route('products.index') }}">
+								<span class="nav-text">Produk</span>
 								</a>
 							</li>
 						</div>
