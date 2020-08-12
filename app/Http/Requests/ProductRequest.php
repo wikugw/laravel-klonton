@@ -23,12 +23,21 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|max:191',
-            'weight' => 'required|integer',
-            'price' => 'required|integer',
-            'description' => 'required',
-            'image' => 'required|image',
-        ];
+        if ($this->method() == 'PUT') {
+            return [
+                'name' => 'required|max:191',
+                'weight' => 'required|integer',
+                'price' => 'required|integer',
+                'description' => 'required',
+            ];
+        } else {
+            return [
+                'name' => 'required|max:191',
+                'weight' => 'required|integer',
+                'price' => 'required|integer',
+                'description' => 'required',
+                'image' => 'required|image',
+            ];
+        }
     }
 }

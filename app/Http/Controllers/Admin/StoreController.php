@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Store;
-use App\Models\User;
+use App\Models\Product;
 use App\Http\Requests\StoreRequest;
 
 use Str;
@@ -86,6 +86,7 @@ class StoreController extends Controller
     public function show($id)
     {
         $this->data['store'] = Store::findOrFail($id);
+        $this->data['products'] = Product::where('store_id', $this->data['store']->id)->get();
         return view('admin.stores.show', $this->data);
     }
 

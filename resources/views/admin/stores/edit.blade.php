@@ -43,7 +43,7 @@
                             </div>
                             <div class="form-footer pt-2 border-top">
                                 <button type="submit" class="btn btn-primary btn-default">Save</button>
-                                <a href="{{ route('stores.index') }}" class="btn btn-secondary btn-default">Back</a>
+                                <a href="{{ URL::previous() }}" class="btn btn-secondary btn-default">Back</a>
                             </div>
                         </form>
                     </div>

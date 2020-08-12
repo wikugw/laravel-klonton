@@ -21,6 +21,9 @@
                         @else
                             <span class="badge badge-success">Active</span>
                         @endif
+                        <br>
+                        <br>
+                        <a  href="{{ route('stores.edit', $store->id) }}" class="btn btn-sm btn-success">Edit Toko</a>
                     </div>
                 </div>
             </div>
@@ -32,7 +35,7 @@
                         <a class="nav-link active" id="timeline-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">Info</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#product" role="tab" aria-controls="product" aria-selected="true">Product</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
@@ -45,9 +48,71 @@
                         <h4 class="pt-4 text-dark mb-3">Foto KTP</h4>
                         <img src="{{url($store->foto_ktp)}}" class="img-thumbnail" alt="profile toko">
                     </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="tab-pane fade" id="product" role="tabpanel" aria-labelledby="product-tab">
+                        <div class="py-4">
+                            <table id="basic-data-table" class="table nowrap pt-3" style="width:100%">
+                                <thead>
+                                  <tr>
+                                  <th>#</th>
+                                  <th>Nama Produk</th>
+                                  <th>Kategori</th>
+                                  <th>Berat</th>
+                                  <th>Harga</th>
+                                  <th>Tersedia</th>
+                                  <th>Toko</th>
+                                  <th>Action</th>
+                                 </tr>
+                                </thead>
 
+                                <tbody>
+                                    @forelse ($products as $product)
+                                        <tr>
+                                            <td>{{ $product->id }}</td>
+                                            <td>{{ $product->name }}</td>
+                                            <td>{{ $product->category->name }}</td>
+                                            <td>{{ $product->weight }}</td>
+                                            <td>{{ $product->price }}</td>
+                                            <td>
+                                                @if ($product->is_available == '0')
+                                                    <span class="badge badge-danger">Habis</span>
+                                                @else
+                                                    <span class="badge badge-success">Tersedia</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ $product->store->name }}</td>
+                                            <td>
+                                                @if ($product->is_active == '0')
+                                                <a  href="{{ route('products.activate', $store->id) }}"
+                                                    class="btn btn-sm btn-primary"
+                                                    onclick="return confirm('Yakin ingin mengaktifkan toko?');"
+                                                >
+                                                    <span class="mdi mdi-check"></span>
+                                                </a>
+                                                @endif
+                                                <a  href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-success"><span class="mdi mdi-pencil"></span></a>
+                                                <a  href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-info"><span class="mdi mdi-eye"></span></a>
+                                                <form action="{{ route('products.destroy', $product->id) }}" method="post" class="d-inline">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Yakin ingin menghapus toko?');"
+                                                    >
+                                                        <span class="mdi mdi-delete"></span>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                    <td class="text-center" colspan="8"> Produk tidak ditemukan </td>
+                                    @endforelse
+                                </tbody>
+                               </table>
+                            <div class="form-footer pt-4 text-right">
+                                <a href="{{ route('products.create') }}" class="btn btn-primary btn-sm btn-default">Tambah Produk</a>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
 
                     </div>

@@ -66,10 +66,17 @@
                     {{ Auth::user()->name }} <small class="pt-1">{{ Auth::user()->email }}</small>
                 </div>
               </li>
-
+              @if (Auth::user()->role_id == '1')
+              @elseif (Auth::user()->store_id == '')
               <li>
                 <a href="{{ route('stores.create') }}">
                   <i class="mdi mdi-store"></i> Buat Toko
+                </a>
+              </li>
+              @else
+              <li>
+                <a href="{{ route('stores.show', Auth::user()->store_id) }}">
+                  <i class="mdi mdi-store"></i> Lihat Toko
                 </a>
               </li>
               <li>
@@ -77,6 +84,7 @@
                   <i class="mdi mdi-clipboard"></i> Tambah Produk
                 </a>
               </li>
+              @endif
               <li>
                 <a href="#"> <i class="mdi mdi-diamond-stone"></i> Projects </a>
               </li>
@@ -85,7 +93,15 @@
               </li>
 
               <li class="dropdown-footer">
-                <a href="index.html"> <i class="mdi mdi-logout"></i> Log Out </a>
+                    <a  href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();"
+                    >
+                        <i class="mdi mdi-logout"></i> Log Out
+                    </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
               </li>
             </ul>
           </li>

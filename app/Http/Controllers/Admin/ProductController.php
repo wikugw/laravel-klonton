@@ -55,8 +55,8 @@ class ProductController extends Controller
             $image = $request->file('image');
             $extension = $image->getClientOriginalExtension();
             $filename = $params['slug'] . time() . '.' . $extension;
-            $image->storeAs('public/profile_toko', $filename);
-            $path_gambar_produk = 'storage/profile_toko' . '/' . $filename;
+            $image->storeAs('public/gambar_produk', $filename);
+            $path_gambar_produk = 'storage/gambar_produk' . '/' . $filename;
         }
 
         $params['image'] = $path_gambar_produk;
@@ -79,7 +79,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->data['product'] = Product::findOrFail($id);
+        return view('admin.products.show', $this->data);
     }
 
     /**
@@ -90,7 +91,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->data['product'] = Product::findOrFail($id);
+        $kategori =  $this->data['product']->store_id;
+        $this->data['categories'] = Category::whereNotIn('id', [$kategori])->get();
+        return view('admin.products.edit', $this->data);
     }
 
     /**
@@ -102,7 +106,30 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $params = $request->except('_token');
+        $params['slug'] = Str::slug($params['name']);
+        $store = Store::where('user_id', Auth::user()->id)->first();
+        $params['store_id'] = $store->id;
+
+        if ($request->has('image') && $request->image != "undefined") {
+            $image = $request->file('image');
+            $extension = $image->getClientOriginalExtension();
+            $filename = $params['slug'] . time() . '.' . $extension;
+            $image->storeAs('public/gambar_produk', $filename);
+            $path_gambar_produk = 'storage/gambar_produk' . '/' . $filename;
+        }
+
+        $params['image'] = $path_gambar_produk;
+        // return $params;
+        $product = Product::findOrFail($id);
+
+        if ($product->update($params)) {
+            Session::flash('success', 'Produk berhasil di update!');
+        } else {
+            Session::flash('error', 'Tidak dapat mengupdate produk, coba ulangi');
+        }
+
+        return redirect()->route('products.index');
     }
 
     /**
@@ -113,6 +140,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrfail($id);
+        if ($product->delete()) {
+            Session::flash('success', 'Produk berhasil dihapus!');
+        }
+
+        return redirect()->route('products.index');
     }
 }

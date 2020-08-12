@@ -25,7 +25,8 @@
 					<ul  class="collapse show"  id="dashboard"
 						data-parent="#sidebar-menu">
 						<div class="sub-menu">
-							<li  class="active" >
+                            @if (Auth::user()->role_id == "1")
+                            <li  class="active" >
 								<a class="sidenav-item-link" href="{{ route('stores.index') }}">
 								<span class="nav-text">Toko</span>
 								</a>
@@ -40,6 +41,9 @@
 								<span class="nav-text">Produk</span>
 								</a>
 							</li>
+                            @else
+
+                            @endif
 						</div>
 					</ul>
 				</li>
