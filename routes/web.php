@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // return view('auth.login');
-    return view('user.shop');
+    return view('auth.login');
+    // return view('user.shop');
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth']], function () {
@@ -23,6 +23,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::resource('stores', 'StoreController');
     Route::resource('categories', 'CategoryController');
     Route::resource('products', 'ProductController');
+    Route::get('carts/{id}/add', 'CartController@add')->name('carts.add');
+    Route::resource('carts', 'CartController');
 });
 
 Auth::routes();

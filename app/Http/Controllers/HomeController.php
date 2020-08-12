@@ -34,10 +34,12 @@ class HomeController extends Controller
             $this->data['products'] = Product::all();
             $this->data['categories'] = Category::all();
             return view('user.shop', $this->data);
-        } else {
+        } elseif (Auth::user()->role_id == "2" && Auth::user()->store_id !== "") {
             $this->data['store'] = Store::findOrFail(Auth::user()->store_id);
             $this->data['products'] = Product::where('store_id', $this->data['store']->id)->get();
             return view('admin.stores.show', $this->data);
+        } else {
+            return view('auth.login');
         }
     }
 }
