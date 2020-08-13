@@ -14,4 +14,19 @@ class Cart_detail extends Model
         'product_id',
         'quantity'
     ];
+
+    public function cart()
+    {
+        return $this->belongsTo('App\Models\Cart');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product');
+    }
+
+    public function total_price()
+    {
+        return $this->quantity * $this->product->price;
+    }
 }

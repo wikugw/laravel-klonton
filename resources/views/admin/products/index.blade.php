@@ -58,7 +58,7 @@
                                                 @method('delete')
                                                 @csrf
                                                 <button class="btn btn-sm btn-danger"
-                                                        onclick="return confirm('Yakin ingin menghapus toko?');"
+                                                        onclick="return confirm('Yakin ingin menghapus produk?');"
                                                 >
                                                     <span class="mdi mdi-delete"></span>
                                                 </button>

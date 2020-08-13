@@ -20,10 +20,11 @@ class CartController extends Controller
     public function index()
     {
         $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
-        foreach ($this->data['carts'] as $this->data['cart']) {
-            $this->data['cart_details'] = Cart_detail::where('cart_id', $this->data['cart']->id)->get();
+        foreach ($this->data['carts'] as $cart) {
+            $cart_ids[] = $cart->id;
         }
-        return $this->data['cart_details'];
+        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+
         return view('user.cart', $this->data);
     }
 
@@ -109,7 +110,7 @@ class CartController extends Controller
             $cart = Cart::create($cart)->id;
         }
 
-        return $cart;
+        // return $cart;
 
         $cart_detail['cart_id'] = $cart;
         $cart_detail['product_id'] = $product->id;
@@ -133,5 +134,27 @@ class CartController extends Controller
         }
 
         return redirect()->route('carts.index');
+    }
+
+    public function increment_quantity($id)
+    {
+        $params = Cart_detail::findOrFail($id);
+        $quantity_now = (int)$params['quantity'];
+        $quantity_now += 1;
+        $params['quantity'] = $quantity_now;
+        $params->save();
+
+        return redirect()->back();
+    }
+
+    public function decrement_quantity($id)
+    {
+        $params = Cart_detail::findOrFail($id);
+        $quantity_now = (int)$params['quantity'];
+        $quantity_now -= 1;
+        $params['quantity'] = $quantity_now;
+        $params->save();
+
+        return redirect()->back();
     }
 }

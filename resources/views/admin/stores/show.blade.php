@@ -1,7 +1,10 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="content">							<div class="bg-white border rounded">
+<div class="content">
+    {{-- session sukses --}}
+    @include('admin.partials.flash')
+    <div class="bg-white border rounded">
     <div class="row no-gutters">
         <div class="col-lg-4 col-xl-3">
             <div class="profile-content-left pt-5 pb-3 px-3 px-xl-5">
@@ -108,7 +111,9 @@
                                 </tbody>
                                </table>
                             <div class="form-footer pt-4 text-right">
-                                <a href="{{ route('products.create') }}" class="btn btn-primary btn-sm btn-default">Tambah Produk</a>
+                                @if ($store->is_active == '1')
+                                    <a href="{{ route('products.create') }}" class="btn btn-primary btn-sm btn-default">Tambah Produk</a>
+                                @endif
                             </div>
                         </div>
                     </div>

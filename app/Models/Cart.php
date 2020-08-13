@@ -14,4 +14,9 @@ class Cart extends Model
         'user_id',
         'service'
     ];
+
+    public function cart_detail()
+    {
+        return $this->hasMany('App\Models\Cart_detail');
+    }
 }

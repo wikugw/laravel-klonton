@@ -61,7 +61,15 @@
 	          <li class="nav-item dropdown active">
               <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
-              	<a class="dropdown-item" href="{{ route('stores.create') }}">Buat Toko</a>
+                @if (Auth::user()->role_id == '1')
+                    <a class="dropdown-item" href="{{ route('stores.index') }}">Menuju Halaman Admin</a>
+                @else
+                    @if (Auth::user()->store_id == '')
+                        <a class="dropdown-item" href="{{ route('stores.create') }}">Buat Toko</a>
+                    @else
+              	        <a class="dropdown-item" href="{{ route('stores.show', Auth::user()->store_id) }}">Menuju Toko</a>
+                    @endif
+                @endif
                 <a class="dropdown-item" href="product-single.html">Single Product</a>
                 <a class="dropdown-item" href="cart.html">Cart</a>
                 <a class="dropdown-item" href="checkout.html">Checkout</a>

@@ -14,29 +14,46 @@
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Total</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
+                  @forelse ($cart_details as $cart_detail)
                   <tr class="text-center">
-                    <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+                    <td class="product-remove"><a href="{{ route('carts.remove', $cart_detail->id) }}"><span class="ion-ios-close"></span></a></td>
 
-                    <td class="image-prod"><div class="img" style="background-image:url(images/product-3.jpg);"></div></td>
-
-                    <td class="product-name">
-                        <h3>Young Woman Wearing Dress</h3>
-                        <p>Far far away, behind the word mountains, far from the countries</p>
+                    <td class="image-prod">
+                        <img class="img-fluid" src="{{url($cart_detail->product->image)}}" alt="Colorlib Template" style=" object-fit: contain" width="100px">
                     </td>
 
-                    <td class="price">$4.90</td>
+                    <td class="product-name">
+                        <h3>{{ $cart_detail->product->name }}</h3>
+                    </td>
+
+                    <td class="price">Rp. {{ $cart_detail->product->price }}  </td>
 
                     <td class="quantity">
                         <div class="input-group mb-3">
-                         <input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
+                         <input type="text" name="quantity" class="quantity form-control input-number" readonly value={{ $cart_detail->quantity }} min="1" max="100">
                       </div>
                     </td>
 
-                    <td class="total">$4.90</td>
-                  </tr><!-- END TR-->
+                    <td class="total">Rp. {{ $cart_detail->total_price() }}</td>
+
+                    <td>
+                        <div class="row pl-1">
+                            @if ($cart_detail->quantity > 1)
+                            <a href="{{ route('carts.decrement_quantity', $cart_detail->id) }}" class="btn btn-sm btn-secondary"><span class="ion-ios-remove"></a>
+                            @endif
+                            <a href="#" class="btn btn-sm btn-primary mx-1">Checkout</a>
+                            <a href="{{ route('carts.increment_quantity', $cart_detail->id) }}" class="btn btn-sm btn-info"><span class="ion-ios-add"></a>
+                        </div>
+                    </td>
+                  </tr>
+                  @empty
+                    <h3 class="text-center" colspan="6">Belum ada barang pada keranjang</h3>
+                  @endforelse
+                  <!-- END TR-->
 
                 </tbody>
               </table>

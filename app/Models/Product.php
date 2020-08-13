@@ -30,4 +30,9 @@ class Product extends Model
     {
         return $this->belongsTo('App\Models\Store');
     }
+
+    public function cart_detail()
+    {
+        return $this->hasMany('App\Models\Cart_detail');
+    }
 }

@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('auth.login');
-    // return view('user.shop');
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth']], function () {
@@ -23,7 +22,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::resource('stores', 'StoreController');
     Route::resource('categories', 'CategoryController');
     Route::resource('products', 'ProductController');
+});
+
+Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('carts/{id}/add', 'CartController@add')->name('carts.add');
+    Route::get('carts/{id}/incerement_quantity', 'CartController@increment_quantity')->name('carts.increment_quantity');
+    Route::get('carts/{id}/decrement_quantity', 'CartController@decrement_quantity')->name('carts.decrement_quantity');
     Route::resource('carts', 'CartController');
 });
 

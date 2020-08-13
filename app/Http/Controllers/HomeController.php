@@ -27,19 +27,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role_id == "1" && Auth::user()->store_id == "") {
-            $this->data['stores'] = Store::All();
-            return view('admin.stores.index', $this->data);
-        } elseif (Auth::user()->role_id == "2" && Auth::user()->store_id == "") {
-            $this->data['products'] = Product::all();
-            $this->data['categories'] = Category::all();
-            return view('user.shop', $this->data);
-        } elseif (Auth::user()->role_id == "2" && Auth::user()->store_id !== "") {
-            $this->data['store'] = Store::findOrFail(Auth::user()->store_id);
-            $this->data['products'] = Product::where('store_id', $this->data['store']->id)->get();
-            return view('admin.stores.show', $this->data);
-        } else {
-            return view('auth.login');
-        }
+        $this->data['products'] = Product::where('is_available', '1')->get();
+        $this->data['categories'] = Category::all();
+        return view('user.shop', $this->data);
     }
 }

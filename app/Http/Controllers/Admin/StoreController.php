@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Store;
 use App\Models\Product;
 use App\Http\Requests\StoreRequest;
-
+use App\User;
 use Str;
 use Auth;
 use Session;
@@ -68,13 +68,15 @@ class StoreController extends Controller
         $params['profile'] = $path_profile_toko;
         $params['foto_ktp'] = $path_foto_ktp;
 
-        if (Store::create($params)) {
-            Session::flash('success', 'Toko telah dibuat, menunggu persetujuan admin');
-        } else {
-            Session::flash('error', 'Tidak dapat membuat toko, coba ulangi');
-        }
+        $this->data['store'] = Store::create($params)->id;
 
-        return redirect()->route('stores.show', $params['user_id']);
+        $toko_user = User::findOrFail(Auth::user()->id);
+        $toko_user->store_id = $this->data['store'];
+        $toko_user->save();
+
+        Session::flash('success', 'Toko telah dibuat, menunggu persetujuan admin');
+
+        return redirect()->route('stores.show', $this->data);
     }
 
     /**

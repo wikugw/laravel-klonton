@@ -22,6 +22,7 @@ class ProductController extends Controller
     public function index()
     {
         $this->data['products'] = Product::all();
+        $this->data['store'] = Auth::user()->store_id;
 
         return view('admin.products.index', $this->data);
     }
@@ -68,7 +69,7 @@ class ProductController extends Controller
             Session::flash('error', 'Tidak dapat membuat produk, coba ulangi');
         }
 
-        return redirect()->route('products.index');
+        return redirect()->route('stores.show', $store->id);
     }
 
     /**
@@ -144,7 +145,6 @@ class ProductController extends Controller
         if ($product->delete()) {
             Session::flash('success', 'Produk berhasil dihapus!');
         }
-
-        return redirect()->route('products.index');
+        return redirect()->back();
     }
 }

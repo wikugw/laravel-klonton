@@ -9,7 +9,7 @@
                 @forelse ($products as $product)
                     <div class="col-sm-6 col-md-6 col-lg-4 ftco-animate">
                     <div class="product">
-                        <a href="#" class="img-prod"><img class="img-fluid" src="{{url($product->image)}}" alt="Colorlib Template">
+                        <a href="#" class="img-prod"><img class="img-fluid" src="{{url($product->image)}}" alt="Colorlib Template" style="height: 300px; object-fit: contain" width="100%">
                             <div class="overlay"></div>
                         </a>
                         <div class="text py-3 px-3">
