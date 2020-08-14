@@ -40,6 +40,11 @@
 								<a class="sidenav-item-link" href="{{ route('products.index') }}">
 								<span class="nav-text">Produk</span>
 								</a>
+                            </li>
+                            <li>
+								<a class="sidenav-item-link" href="{{ route('users.index') }}">
+								<span class="nav-text">User</span>
+								</a>
 							</li>
                             @else
 

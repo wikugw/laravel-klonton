@@ -20,6 +20,7 @@ class CartController extends Controller
     public function index()
     {
         $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+        $cart_ids[] = 0;
         foreach ($this->data['carts'] as $cart) {
             $cart_ids[] = $cart->id;
         }
@@ -90,7 +91,11 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cart_detail = Cart_detail::findOrfail($id);
+        $cart_detail['quantity'] = 0;
+        $cart_detail->save();
+        $cart_detail->delete();
+        return redirect()->back();
     }
 
     public function add($id)
@@ -115,22 +120,18 @@ class CartController extends Controller
         $cart_detail['cart_id'] = $cart;
         $cart_detail['product_id'] = $product->id;
 
-        $cart_detail['quantity'] = Cart_detail::where('product_id', $product->id)->first();
+        $cart_detail['quantity'] = Cart_detail::where('cart_id', $cart)->where('product_id', $product->id)->first();
+        // return $cart_detail['quantity'];
 
         if ($cart_detail['quantity'] !== null) {
-            $quantity_now = (int)$cart_detail;
+            $cart_detail = Cart_detail::findOrFail($cart_detail['quantity']->id);
+            $quantity_now = (int)$cart_detail['quantity'];
             $quantity_now += 1;
             $cart_detail['quantity'] = $quantity_now;
+            $cart_detail->save();
         } else {
             $cart_detail['quantity'] = 1;
-        }
-
-        // return $cart_detail;
-
-        if (Cart_detail::create($cart_detail)) {
-            Session::flash('success', 'Berhasil menambahkan produk pada Keranjang!');
-        } else {
-            Session::flash('error', 'Tidak dapat menambahkan produk pada Keranjang, coba ulangi');
+            Cart_detail::create($cart_detail);
         }
 
         return redirect()->route('carts.index');

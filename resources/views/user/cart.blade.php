@@ -20,7 +20,26 @@
                 <tbody>
                   @forelse ($cart_details as $cart_detail)
                   <tr class="text-center">
-                    <td class="product-remove"><a href="{{ route('carts.remove', $cart_detail->id) }}"><span class="ion-ios-close"></span></a></td>
+                    <td class="product-remove">
+                        <form action="{{ route('carts.destroy', $cart_detail->id) }}" method="post" class="d-inline">
+                            @method('delete')
+                            @csrf
+                            <button class="btn btn-sm btn-primary">
+                                <span class="ion-ios-close">
+                            </button>
+                        </form>
+
+                        {{-- <a  href="#"
+                            onclick="event.preventDefault(); document.getElementById('delete-cart_detail').submit();"
+                        >
+                            <span class="ion-ios-close"></span>
+                        </a>
+                        <p>{{ $cart_detail->id }}</p>
+                        <form id="delete-cart_detail" action="{{ route('carts.destroy', $cart_detail->id) }}" method="POST" style="display: none;">
+                            @method('delete')
+                            @csrf
+                        </form> --}}
+                    </td>
 
                     <td class="image-prod">
                         <img class="img-fluid" src="{{url($cart_detail->product->image)}}" alt="Colorlib Template" style=" object-fit: contain" width="100px">
@@ -51,7 +70,7 @@
                     </td>
                   </tr>
                   @empty
-                    <h3 class="text-center" colspan="6">Belum ada barang pada keranjang</h3>
+                    <td class="text-center" colspan="8">Belum ada barang pada keranjang</td>
                   @endforelse
                   <!-- END TR-->
 

@@ -32,7 +32,13 @@
                     </div>
                 </div>
                 @empty
-
+                <div class="container">
+                    <div class="row justify-content-center mt-5 mb-3 pb-3">
+              <div class="col-md-12 heading-section text-center ftco-animate fadeInUp ftco-animated">
+                <h4 class="mb-4">Produk tidak ditemukan :(</h4>
+              </div>
+            </div>
+            </div>
                 @endforelse
             </div>
         </div>
@@ -42,7 +48,7 @@
                 <h2 class="heading mb-4"><a href="#">Kategori</a></h2>
                 <ul>
                     @forelse ($categories as $category)
-                    <li><a href="#">{{ $category->name }}</a></li>
+                    <li><a href="{{ route('home.category', $category->id) }}">{{ $category->name }}</a></li>
                     @empty
 
                     @endforelse

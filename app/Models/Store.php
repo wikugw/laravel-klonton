@@ -26,6 +26,6 @@ class Store extends Model
 
     public function product()
     {
-        return $this->hasOne('App\Models\Product');
+        return $this->belongsTo('App\Models\Product');
     }
 }

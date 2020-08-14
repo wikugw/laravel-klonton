@@ -22,6 +22,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::resource('stores', 'StoreController');
     Route::resource('categories', 'CategoryController');
     Route::resource('products', 'ProductController');
+    Route::resource('users', 'UserController');
 });
 
 Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
@@ -34,3 +35,4 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/{id}', 'HomeController@category')->name('home.category');

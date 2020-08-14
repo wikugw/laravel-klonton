@@ -55,13 +55,21 @@
           <!-- User Account -->
           <li class="dropdown user-menu">
             <button href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-              <img src="{{asset('admin/assets/img/user/user.png') }}" class="user-image" alt="User Image" />
+                @if (Auth::user()->profile_photo == '')
+                <img src="{{url('storage/foto_user/kosong.png')}}" class="user-image"/>
+                @else
+                <img src="{{url(Auth::user()->profile_photo)}}" alt="profile toko" class="user-image">
+                @endif
               <span class="d-none d-lg-inline-block">{{ Auth::user()->name }}</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
               <!-- User image -->
               <li class="dropdown-header">
-                <img src="{{asset('admin/assets/img/user/user.png') }}" class="img-circle" alt="User Image" />
+                @if (Auth::user()->profile_photo == '')
+                <img src="{{url('storage/foto_user/kosong.png')}}" class="img-circle"/>
+                @else
+                <img src="{{url(Auth::user()->profile_photo)}}" alt="profile toko" class="img-circle">
+                @endif
                 <div class="d-inline-block">
                     {{ Auth::user()->name }} <small class="pt-1">{{ Auth::user()->email }}</small>
                 </div>
@@ -86,7 +94,7 @@
               </li>
               @endif
               <li>
-                <a href="#"> <i class="mdi mdi-diamond-stone"></i> Projects </a>
+                <a href="#"> <i class="mdi mdi-account"></i> Profile </a>
               </li>
               <li class="right-sidebar-in">
                 <a href="javascript:0"> <i class="mdi mdi-settings"></i> Setting </a>
