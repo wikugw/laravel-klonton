@@ -11,6 +11,7 @@ use App\User;
 use Str;
 use Auth;
 use Session;
+use App\Models\Address;
 
 class StoreController extends Controller
 {
@@ -89,6 +90,7 @@ class StoreController extends Controller
     {
         $this->data['store'] = Store::findOrFail($id);
         $this->data['products'] = Product::where('store_id', $this->data['store']->id)->get();
+        $this->data['address'] = Address::where('store_id', $this->data['store']->id)->first();
         return view('admin.stores.show', $this->data);
     }
 

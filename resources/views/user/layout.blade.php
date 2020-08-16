@@ -188,5 +188,31 @@
   <script src="{{ URL::asset('user/js/google-map.js') }}"></script>
   <script src="{{ URL::asset('user/js/main.js') }}"></script>
 
+  <script type="text/javascript">
+    $(document).ready(function () {
+        $('select[name="province_id"]').on('change', function () {
+            var cityId = $(this).val();
+            if (cityId) {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/getCity/ajax/' + cityId,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        $('select[name="city_id"]').empty();
+                        $.each(data, function (key, value) {
+                            $('select[name="city_id"]').append(
+                                '<option value="' +
+                                key + '">' + value + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('select[name="city_id"]').empty();
+            }
+        });
+    });
+
+</script>
+
   </body>
 </html>

@@ -94,10 +94,10 @@
               </li>
               @endif
               <li>
-                <a href="#"> <i class="mdi mdi-account"></i> Profile </a>
+                <a href="{{ route('users.show', Auth::user()->id) }}"> <i class="mdi mdi-account"></i> Profile </a>
               </li>
               <li class="right-sidebar-in">
-                <a href="javascript:0"> <i class="mdi mdi-settings"></i> Setting </a>
+                <a href="{{ route('home') }}"> <i class="mdi mdi-shopping"></i> Ke halaman belanja </a>
               </li>
 
               <li class="dropdown-footer">

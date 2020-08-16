@@ -9,6 +9,12 @@ use Auth;
 use App\Models\Cart;
 use App\Models\Cart_detail;
 use Session;
+use App\Models\City;
+use App\Models\Province;
+use App\Http\Requests\AddressRequest;
+use App\Models\Address;
+use Illuminate\Support\Facades\Http;
+use App\Models\Store;
 
 class CartController extends Controller
 {
@@ -57,7 +63,16 @@ class CartController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->data['cart_detail'] = Cart_detail::findOrFail($id);
+        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+        $cart_ids[] = 0;
+        foreach ($this->data['carts'] as $cart) {
+            $cart_ids[] = $cart->id;
+        }
+        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+        $this->data['provinces'] = Province::all();
+        $this->data['cities'] = City::all();
+        return view('user.checkout', $this->data);
     }
 
     /**
@@ -157,5 +172,101 @@ class CartController extends Controller
         $params->save();
 
         return redirect()->back();
+    }
+
+    public function checkout(AddressRequest $request, $id)
+    {
+        $params = $request->except('_token');
+        // mencari cart_detail
+        $cart_detail = Cart_detail::findOrFail($id);
+        // mencari cart
+        $cart = Cart::with('store')->findOrFail($cart_detail->cart_id);
+        // mencari address
+        $cart_address = Address::where('store_id', $cart->store_id)->first();
+        // mencari produk
+        $product = Product::findOrFail($cart_detail->product_id);
+        // kelengkapan cek ongkir
+        // $cek_ongkir['origin'] = $cart_address['city_id'];
+        // $cek_ongkir['destination'] = (int)$params['city_id'];
+        // $cek_ongkir['weight'] = (int)$product->weight * (int)$cart_detail->quantity;
+        // $cek_ongkir['courier'] = $params['courier'];
+        // menambah address pengiriman dan ambil id
+        $params['user_id'] = Auth::user()->id;
+        $destination_address = Address::create($params)->id;
+
+        return redirect()->route('carts.checkout.ongkir', ['id' => $id, 'address_id' => $destination_address, 'courier' => $params['courier']]);
+        // // cek ongkir
+        // $response = Http::asForm()->withHeaders([
+        //     'key' => '599cde1abca841e4b74a85474c131392'
+        // ])->post('https://api.rajaongkir.com/starter/cost', $cek_ongkir);
+        // menampilkan pada halaman pembayaran
+        $this->data['origin_address'] = $cart_address;
+        $this->data['destination_address'] = Address::findOrFail($destination_address);
+        $this->data['product'] = $product;
+        $this->data['services'] = $response['rajaongkir']['results'][0]['costs'];
+        // buat count keranjang
+        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+        $cart_ids[] = 0;
+        foreach ($this->data['carts'] as $cart) {
+            $cart_ids[] = $cart->id;
+        }
+        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+        $this->data['cart_detail'] = $cart_detail;
+        $this->data['weight_total'] = (int)$product->weight * (int)$cart_detail->quantity;
+        $this->data['price_total'] = (int)$product->price * (int)$cart_detail->quantity;
+        $this->data['cart'] = $cart;
+        $this->data['picked_service'] = $cek_ongkir['courier'];
+        // return view('user.transfer', $this->data);
+    }
+
+    public function ongkir($id, $address_id, $courier)
+    {
+        // mencari cart_detail
+        $cart_detail = Cart_detail::findOrFail($id);
+        // mencari product
+        $product = Product::FindOrFail($cart_detail->product_id);
+        // mencari cart
+        $cart = Cart::findOrFail($cart_detail->cart_id);
+        // mencari toko
+        $store = Store::findOrFail($cart->store_id);
+        // mencari alamat toko
+        $origin_address = Address::where('store_id', $store->id)->first();
+        // mencari alamat pembeli
+        $destination_address = Address::findOrFail($address_id);
+
+        // kelengkapan cek ongkir
+        $cek_ongkir['origin'] = (int)$origin_address['city_id'];
+        $cek_ongkir['destination'] = (int)$destination_address['city_id'];
+        $cek_ongkir['weight'] = (int)$product->weight * (int)$cart_detail->quantity;
+        $cek_ongkir['courier'] = $courier;
+
+        // cek ongkir
+        $response = Http::asForm()->withHeaders([
+            'key' => '599cde1abca841e4b74a85474c131392'
+        ])->post('https://api.rajaongkir.com/starter/cost', $cek_ongkir);
+
+        // mengirim data ke view
+        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+        $cart_ids[] = 0;
+        foreach ($this->data['carts'] as $cart) {
+            $cart_ids[] = $cart->id;
+        }
+        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+        $this->data['origin_address'] = $origin_address;
+        $this->data['destination_address'] = $destination_address;
+        $this->data['product'] = $product;
+        $this->data['services'] = $response['rajaongkir']['results'][0]['costs'];
+        $this->data['cart_detail'] = $cart_detail;
+        $this->data['weight_total'] = (int)$product->weight * (int)$cart_detail->quantity;
+        $this->data['price_total'] = (int)$product->price * (int)$cart_detail->quantity;
+        $this->data['cart'] = $cart;
+        $this->data['picked_service'] = $courier;
+
+        return view('user.transfer', $this->data);
+    }
+
+    public function pay(Request $request, $id, $address_id, $courier)
+    {
+        return $request;
     }
 }

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Models\Store;
 use App\Models\Product;
 use Auth;
 use App\Models\Cart;
 use App\Models\Cart_detail;
+use App\Models\City;
 
 class HomeController extends Controller
 {
@@ -52,5 +52,12 @@ class HomeController extends Controller
         }
         $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
         return view('user.shop', $this->data);
+    }
+
+    public function getCitiesAjax($id)
+    {
+        $cities = City::where('province_id', '=', $id)->pluck('city_name', 'id');
+
+        return json_encode($cities);
     }
 }
