@@ -70,6 +70,12 @@
                                 @endforelse
                             </tbody>
                            </table>
+                           <div class="form-footer pt-4 text-right">
+                            @if (Auth::user()->role_id == '2' && $store->is_active == '1')
+                            <a href="{{ route('products.create') }}"
+                                class="btn btn-primary btn-sm btn-default">Tambah Produk</a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

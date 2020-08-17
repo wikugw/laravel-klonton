@@ -18,11 +18,14 @@ Route::get('/', function () {
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth']], function () {
+    Route::get('stores/{id}/products', 'StoreController@store_products')->name('stores.products');
+    Route::get('stores/{id}/banks', 'StoreController@store_banks')->name('stores.banks');
     Route::resource('stores', 'StoreController');
     Route::resource('categories', 'CategoryController');
     Route::resource('products', 'ProductController');
     Route::resource('users', 'UserController');
     Route::resource('addresses', 'AddressController');
+    Route::resource('store_banks', 'StoreBankController');
 });
 
 Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {

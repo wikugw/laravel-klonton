@@ -44,7 +44,7 @@
                                             @if ($user->store_id == '')
                                                 -
                                             @else
-                                            {{ $user->store->name }}
+                                            {{ $user->store['name'] }}
                                             @endif
                                         </td>
                                         <td>

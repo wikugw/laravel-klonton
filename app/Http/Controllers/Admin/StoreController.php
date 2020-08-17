@@ -12,6 +12,10 @@ use Str;
 use Auth;
 use Session;
 use App\Models\Address;
+use App\Models\Store_bank;
+use App\Models\Cart;
+use App\Models\Cart_detail;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class StoreController extends Controller
 {
@@ -91,6 +95,7 @@ class StoreController extends Controller
         $this->data['store'] = Store::findOrFail($id);
         $this->data['products'] = Product::where('store_id', $this->data['store']->id)->get();
         $this->data['address'] = Address::where('store_id', $this->data['store']->id)->first();
+        // $this->data['store_bank'] =
         return view('admin.stores.show', $this->data);
     }
 
@@ -155,10 +160,68 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
+        // mencari toko
         $store = Store::findOrfail($id);
-        if ($store->delete()) {
-            Session::flash('success', 'Toko berhasil dihapus!');
+        // mencari produk
+        $products = Product::where('store_id', $id)->get();
+        // mencari alamat toko
+        $store_address = Address::where('store_id', $id)->first();
+        // mencari cart dengan toko
+        $carts = Cart::where('store_id', $id)->get();
+        // mencari cart_detail yang ada pada toko
+        $cart_ids[] = 0;
+        foreach ($carts as $cart) {
+            $cart_ids[] = $cart->id;
         }
+        $cart_details = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+        // mencari store_bank
+        $store_banks = Store_bank::where('store_id', $id)->get();
+        // mencari pengguna toko
+        $user = User::findOrFail($store->user_id);
+        $user->store_id = null;
+        $user->save();
+
+        // menghapus store bank
+        if (!$store_banks->isEmpty()) {
+            foreach ($store_banks as $store_bank) {
+                $store_bank->delete($store_bank->id);
+            }
+        } else {
+            // return "gada";
+        }
+        // menghapus $cart_details
+        if (!$cart_details->isEmpty()) {
+            foreach ($cart_details as $cart_detail) {
+                $cart_detail->delete($cart_detail->id);
+            }
+        } else {
+            // return "cart detail gada";
+        }
+        // menghapus $cart_details
+        if (!$carts->isEmpty()) {
+            foreach ($carts as $cart) {
+                $cart->delete($cart->id);
+            }
+        } else {
+            // return "cart gada";
+        }
+        // menghapus $cart_details
+        if ($store_address) {
+            $store_address->delete($store_address->id);
+        } else {
+            // return "alamat gada";
+        }
+        // menghapus products
+        if (!$products->isEmpty()) {
+            foreach ($products as $product) {
+                $product->delete($product->id);
+            }
+        } else {
+            // return "product gada";
+        }
+        $store->delete();
+
+        Session::flash('success', 'Toko berhasil dihapus!');
 
         return redirect()->route('stores.index');
     }
@@ -170,5 +233,18 @@ class StoreController extends Controller
         $params->save();
         Session::flash('success', 'Toko telah diaktivasi');
         return redirect()->route('stores.index');
+    }
+
+    public function store_products($id)
+    {
+        $this->data['products'] = Product::where('store_id', $id)->get();
+        $this->data['store'] = Store::findOrFail(Auth::user()->store_id);
+        return view('admin.products.index', $this->data);
+    }
+
+    public function store_banks($id)
+    {
+        $this->data['store_banks'] = Store_bank::where('store_id', $id)->get();
+        return view('admin.store_banks.index', $this->data);
     }
 }

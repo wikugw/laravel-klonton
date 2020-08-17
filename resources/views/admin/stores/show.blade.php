@@ -43,10 +43,6 @@
                                 aria-controls="info" aria-selected="false">Info</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#product" role="tab"
-                                aria-controls="product" aria-selected="true">Product</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" id="address-tab" data-toggle="tab" href="#address" role="tab"
                                 aria-controls="address" aria-selected="false">Alamat</a>
                         </li>
@@ -159,11 +155,15 @@
                                     <h5 class="font-weight-medium">{{ $address->postal_code }}</h5>
                                 </div>
                             </div>
-
                            @else
                            <a href="{{ route('addresses.create') }}" class="btn btn-primary btn-block mt-5">Tambahkan
                             alamat</a>
                            @endif
+                        </div>
+
+                        <div class="tab-pane fade" id="store_bank" role="tabpanel" aria-labelledby="store_bank-tab">
+                            <a  href="{{ route('store_banks.create') }}"
+                                class="btn btn-primary btn-sm btn-default">Tambah Bank</a>
                         </div>
                     </div>
                 </div>

@@ -41,13 +41,32 @@
 								<span class="nav-text">Produk</span>
 								</a>
                             </li>
+                            <li >
+								<a class="sidenav-item-link" href="{{ route('store_banks.index') }}">
+								<span class="nav-text">Bank</span>
+								</a>
+							</li>
                             <li>
 								<a class="sidenav-item-link" href="{{ route('users.index') }}">
 								<span class="nav-text">User</span>
 								</a>
-							</li>
+                            </li>
                             @else
-
+                            <li  class="active" >
+								<a class="sidenav-item-link" href="{{ route('stores.show', Auth::user()->id) }}">
+								<span class="nav-text">Toko</span>
+								</a>
+                            </li>
+                            <li  class="active" >
+								<a class="sidenav-item-link" href="{{ route('stores.products', Auth::user()->id) }}">
+								<span class="nav-text">Produk</span>
+								</a>
+                            </li>
+                            <li  class="active" >
+								<a class="sidenav-item-link" href="{{ route('stores.banks', Auth::user()->id) }}">
+								<span class="nav-text">Bank</span>
+								</a>
+							</li>
                             @endif
 						</div>
 					</ul>

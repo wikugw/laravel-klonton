@@ -15,7 +15,7 @@ class CreateStoreBanksTable extends Migration
     {
         Schema::create('store_banks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('store')->nullable()->constrained('stores')->onDelete('cascade');
+            $table->foreignId('store_id')->nullable()->constrained('stores')->onDelete('cascade');
             $table->string('bank_name');
             $table->string('nomor_rekening')->unique();
             $table->string('atas_nama');

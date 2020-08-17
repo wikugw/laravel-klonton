@@ -5,7 +5,7 @@
         <div class="col-lg-4">
             <div class="card card-default">
                 <div class="card-header card-header-border-bottom">
-                    Tambah Kategori
+                    Edit Kategori {{ $category->name }}
                 </div>
                 <div class="card-body">
                     @include('admin.partials.flash', ['$errors' => $errors])
