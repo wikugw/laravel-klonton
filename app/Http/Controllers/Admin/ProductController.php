@@ -69,7 +69,7 @@ class ProductController extends Controller
             Session::flash('error', 'Tidak dapat membuat produk, coba ulangi');
         }
 
-        return redirect()->route('stores.show', $store->id);
+        return redirect()->route('stores.products', Auth::user()->id);
     }
 
     /**
