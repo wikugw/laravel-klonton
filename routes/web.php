@@ -34,7 +34,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('carts/{id}/decrement_quantity', 'CartController@decrement_quantity')->name('carts.decrement_quantity');
     Route::post('carts/{id}/checkout', 'CartController@checkout')->name('carts.checkout');
     Route::get('carts/{id}/checkout/{address_id}/{courier}', 'CartController@ongkir')->name('carts.checkout.ongkir');
-    Route::get('carts/{id}/checkout/{address_id}/{courier}/pay', 'CartController@pay')->name('carts.checkout.pay');
+    Route::post('carts/{id}/checkout/{address_id}/{courier}/pay', 'CartController@pay')->name('carts.checkout.pay');
     Route::resource('carts', 'CartController');
 });
 
@@ -43,3 +43,5 @@ Auth::routes();
 Route::get('/getCity/ajax/{id}', 'HomeController@getCitiesAjax');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/{id}', 'HomeController@category')->name('home.category');
+Route::get('/success', 'HomeController@success')->name('home.success');
+Route::get('/transactions', 'HomeController@transactions')->name('home.transactions');

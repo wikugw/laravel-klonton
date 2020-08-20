@@ -57,7 +57,8 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item"><a href="{{ route('home') }}" class="nav-link">Home</a></li>
+              <li class="nav-item"><a href="{{ route('home') }}" class="nav-link">Home</a></li>
+              <li class="nav-item"><a href="{{ route('home.transactions') }}" class="nav-link">Transaksi</a></li>
 	          <li class="nav-item dropdown active">
               <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">

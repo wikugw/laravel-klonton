@@ -16,6 +16,8 @@ use App\Models\Address;
 use Illuminate\Support\Facades\Http;
 use App\Models\Store;
 use App\Models\Store_bank;
+use App\Models\Transaction;
+use App\Models\Transaction_detail;
 
 class CartController extends Controller
 {
@@ -270,36 +272,38 @@ class CartController extends Controller
 
     public function pay(Request $request, $id, $address_id, $courier)
     {
-        return $request;
-        $params = $request->except('_token');
-        if ($request->has('image') && $request->image != "undefined") {
-            $image = $request->file('image');
-            $extension = $image->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            return  $filename;
-            $image->storeAs('public/gambar_produk', $filename);
-            $path_gambar_produk = 'storage/gambar_produk' . '/' . $filename;
-        }
-        return  $path_gambar_produk;
-        $params = $request->except('_token');
-        $params['courier'] = $courier;
         // mencari cart detail
         $cart_detail = Cart_detail::findOrFail($id);
         // mencari cart
         $cart = Cart::findOrFail($cart_detail->cart_id);
         // mencari toko
         $store = Store::findOrFail($cart->store_id);
-        // mencari bank toko
-        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
-        $cart_ids[] = 0;
-        foreach ($this->data['carts'] as $cart) {
-            $cart_ids[] = $cart->id;
+        // mencari produk
+        $product = Product::findOrFail($cart_detail->product_id);
+        // mengumpulkan data pada tabel transactions
+        $transaction = $request->except('_token');
+        $transaction['user_id'] = Auth::user()->id;
+        $transaction['store_id'] = $cart->store_id;
+        $transaction['status'] = 1;
+        $transaction['code'] = 'TRX-' . $cart_detail->id . '-' . time();
+
+        if ($request->has('image') && $request->image != "undefined") {
+            $image = $request->file('image');
+            $extension = $image->getClientOriginalExtension();
+            $filename = 'TRX-' . $cart_detail->id . '-' . time() . '.' . $extension;
+            $image->storeAs('public/bukti_transfer', $filename);
+            $path_bukti_transfer = 'storage/bukti_transfer' . '/' . $filename;
         }
-        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
-        $store_banks = Store_bank::where('store_id', $store->id)->get();
-        $this->data['store_banks'] = $store_banks;
-        $this->data['pay_info'] = $params;
-        $this->data['destination_address'] = Address::findOrFail($address_id);
-        return view('user.final', $this->data);
+        $transaction['bukti_transfer'] = $path_bukti_transfer;
+        // tambah data transaksi database
+        $transaction = Transaction::create($transaction)->id;
+        // mengumpulkan data transaction detail
+        $transaction_detail['transaction_id'] = $transaction;
+        $transaction_detail['product_id'] = $product->id;
+        $transaction_detail['quantity'] = $cart_detail->quantity;
+        Transaction_detail::create($transaction_detail);
+        // menghapus cart_detail
+        $cart_detail->delete();
+        return redirect()->route('home.success');
     }
 }

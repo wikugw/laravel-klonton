@@ -9,7 +9,7 @@
                 <h3>Informasi Toko</h3>
                 <p class="d-flex">
                     <span>Nama Toko</span>
-                    <span>{{ $cart->store_id }}</span>
+                    <span>{{ $cart->store['name'] }}</span>
                 </p>
                 <hr>
                 <p class="d-flex">
@@ -122,9 +122,9 @@
                     <tbody>
                         @forelse ($services as $service)
                         <form
-                            action="{{ route('carts.checkout.pay', ['id' => $cart_detail->id, 'address_id' => $destination_address->id, 'courier' => $picked_service]) }}"
                             enctype="multipart/form-data"
-                            method="GET">
+                            action="{{ route('carts.checkout.pay', ['id' => $cart_detail->id, 'address_id' => $destination_address->id, 'courier' => $picked_service]) }}"
+                            method="POST">
                             @csrf
                             <tr class="text-center">
 
@@ -182,7 +182,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ikuti Instruksi untuk menyelesaikan transaksi</h5>
                     <button type="button" class="close" data-dismiss="modal"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -224,7 +224,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
                         data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Saya Telah Bayar</button>
                 </div>
             </div>
         </div>

@@ -9,6 +9,8 @@ use Auth;
 use App\Models\Cart;
 use App\Models\Cart_detail;
 use App\Models\City;
+use App\Models\Transaction;
+use App\Models\Transaction_detail;
 
 class HomeController extends Controller
 {
@@ -54,10 +56,42 @@ class HomeController extends Controller
         return view('user.shop', $this->data);
     }
 
+    public function transactions()
+    {
+        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+        $cart_ids[] = 0;
+        foreach ($this->data['carts'] as $cart) {
+            $cart_ids[] = $cart->id;
+        }
+        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+
+        $this->data['transactions'] = Transaction::where('user_id', Auth::user()->id)->get();
+
+        $transaction_ids[] = 0;
+        foreach ($this->data['transactions'] as $transaction) {
+            $transaction_ids[] = $transaction->id;
+        }
+        $this->data['transaction_details'] = Transaction_detail::whereIn('transaction_id', $transaction_ids)->get();
+
+        return view('user.transactions', $this->data);
+    }
+
     public function getCitiesAjax($id)
     {
         $cities = City::where('province_id', '=', $id)->pluck('city_name', 'id');
 
         return json_encode($cities);
+    }
+
+    public function success()
+    {
+        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+        // return $this->data['carts'];
+        $cart_ids[] = 0;
+        foreach ($this->data['carts'] as $cart) {
+            $cart_ids[] = $cart->id;
+        }
+        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+        return view('user.success', $this->data);
     }
 }
