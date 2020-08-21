@@ -20,4 +20,14 @@ class Transaction extends Model
         'resi',
         'bukti_transfer'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function store()
+    {
+        return $this->belongsTo('App\Models\Store');
+    }
 }

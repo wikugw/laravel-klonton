@@ -31,7 +31,38 @@
 
                             <td class="price">{{ $transaction_detail->quantity }} </td>
 
-                            <td class="price">{{ $transaction_detail->transaction->status }} </td>
+                            <td class="price"
+                                @if ($transaction_detail->transaction->status == '1')
+                                style="color: red;"> Menunggu Konfirmasi
+                                @elseif($transaction_detail->transaction->status == '2')
+                                style="color: orange;"> Menunggu Resi
+                                @elseif($transaction_detail->transaction->status == '3')
+                                style="color: green;"> Barang Telah dikirim
+                                @elseif($transaction_detail->transaction->status == '4')
+                                style="color: green;"> Transaksi Selesai
+                                @endif
+                            </td>
+
+                            <td class="price">
+                                @if ($transaction_detail->transaction->resi == null)
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, velit.
+                                @else
+                                    {{ $transaction_detail->transaction->resi }}
+                                @endif
+                            </td>
+
+                            <td class="price">
+                                @if ($transaction_detail->transaction->status == '3')
+                                <a
+                                    href="{{ route('home.receive', $transaction_detail->transaction->id) }}"
+                                    class="btn btn-sm btn-primary"
+                                    onclick="return confirm('Dengan menekan tombol ini anda akan menyelesaikan transaksi');">
+                                    Barang telah saya terima
+                                </a>
+                                @else
+                                -
+                                @endif
+                            </td>
 
                             {{-- <td class="quantity">
                                 <div class="input-group mb-3">

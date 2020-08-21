@@ -66,6 +66,11 @@
 								<a class="sidenav-item-link" href="{{ route('stores.banks', Auth::user()->id) }}">
 								<span class="nav-text">Bank</span>
 								</a>
+                            </li>
+                            <li  class="active" >
+								<a class="sidenav-item-link" href="{{ route('stores.transactions', Auth::user()->id) }}">
+								<span class="nav-text">Transaksi</span>
+								</a>
 							</li>
                             @endif
 						</div>

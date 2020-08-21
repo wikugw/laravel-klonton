@@ -15,7 +15,8 @@ use App\Models\Address;
 use App\Models\Store_bank;
 use App\Models\Cart;
 use App\Models\Cart_detail;
-use Illuminate\Support\Facades\Auth as FacadesAuth;
+use App\Models\Transaction;
+use App\Models\Transaction_detail;
 
 class StoreController extends Controller
 {
@@ -246,5 +247,19 @@ class StoreController extends Controller
     {
         $this->data['store_banks'] = Store_bank::where('store_id', $id)->get();
         return view('admin.store_banks.index', $this->data);
+    }
+
+    public function transactions($id)
+    {
+        $this->data['transactions'] = Transaction::where('store_id', $id)->get();
+
+        $transaction_ids[] = 0;
+        foreach ($this->data['transactions'] as $transaction) {
+            $transaction_ids[] = $transaction->id;
+        }
+        $this->data['transaction_details'] = Transaction_detail::whereIn('transaction_id', $transaction_ids)->get();
+
+        // return $this->data;
+        return view('admin.transactions.index', $this->data);
     }
 }

@@ -38,4 +38,9 @@ class Store extends Model
     {
         return $this->hasMany('App\Models\Store_bank');
     }
+
+    public function transaction()
+    {
+        return $this->hasMany('App\Models\Transaction');
+    }
 }

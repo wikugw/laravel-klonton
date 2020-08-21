@@ -94,4 +94,12 @@ class HomeController extends Controller
         $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
         return view('user.success', $this->data);
     }
+
+    public function receive($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        $transaction->status = 4;
+        $transaction->save();
+        return redirect()->route('home.transactions');
+    }
 }
