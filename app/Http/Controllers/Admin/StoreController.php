@@ -258,7 +258,6 @@ class StoreController extends Controller
             $transaction_ids[] = $transaction->id;
         }
         $this->data['transaction_details'] = Transaction_detail::whereIn('transaction_id', $transaction_ids)->get();
-
         // return $this->data;
         return view('admin.transactions.index', $this->data);
     }

@@ -121,8 +121,7 @@
                     </thead>
                     <tbody>
                         @forelse ($services as $service)
-                        <form
-                            enctype="multipart/form-data"
+                        <form enctype="multipart/form-data"
                             action="{{ route('carts.checkout.pay', ['id' => $cart_detail->id, 'address_id' => $destination_address->id, 'courier' => $picked_service]) }}"
                             method="POST">
                             @csrf
@@ -130,8 +129,6 @@
 
                                 <td class="product-name">
                                     <h3>{{$service['description']}} ({{ $service['service'] }})</h3>
-                                    <input type="hidden" name="service"
-                                        value="{{$service['description']}} ({{ $service['service'] }})">
                                 </td>
 
                                 <td class="price">
@@ -141,13 +138,10 @@
 
                                 <td class="price">
                                     Rp. {{ ( $price_total + $service['cost'][0]['value'])}}
-                                    <input type="hidden" name="ongkir" value="{{$service['cost'][0]['value']}}">
-                                    <input type="hidden" name="total_bayar"
-                                        value="{{( $price_total + $service['cost'][0]['value'])}}">
                                 </td>
 
                                 <td class="price">
-                                    {{$service['cost'][0]['etd']}} Hari
+                                    {{$service['cost'][0]['etd']}}
                                 </td>
 
                                 @if ($service['cost'][0]['note'] == "")
@@ -161,37 +155,97 @@
                                 @endif
 
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-primary mx-1" data-toggle="modal"
-                                        data-target="#exampleModal">Pilih</a>
+                                    {{-- <a href="#" class="btn btn-sm btn-primary mx-1" data-toggle="modal"
+                                        data-target="#exampleModal">Pilih</a> --}}
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#exampleModal"
+                                        data-ongkir="{{$service['cost'][0]['value']}}"
+                                        data-service="{{ strtoupper($picked_service)}} - {{$service['description']}} ({{ $service['service'] }})"
+                                        data-whatever="{{( $price_total + $service['cost'][0]['value'])}}">
+                                        Open modal {{ $service['service'] }}
+                                    </button>
                                 </td>
+
                             </tr>
-                        {{-- </form> --}}
-                        @empty
-                        <td class="text-center" colspan="8">Jasa pengiriman tidak dapat ditemukan, coba jassa lain :(
-                        </td>
-                        @endforelse
-                        <!-- END TR-->
+                            {{-- </form> --}}
+                            @empty
+                            <td class="text-center" colspan="8">Jasa pengiriman tidak dapat ditemukan, coba jassa lain
+                                :(
+                            </td>
+                            @endforelse
+                            <!-- END TR-->
 
                     </tbody>
                 </table>
             </div>
         </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ikuti Instruksi untuk menyelesaikan transaksi
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                            <div class="col-md-12 cart-wrap ftco-animate fadeInUp ftco-animated">
+                                <div class="cart-total mb-3">
+                                    <input type="hidden" name="service" id="service"
+                                        value="{{$service['description']}} ({{ $service['service'] }})">
+                                    <input type="hidden" name="ongkir" id="ongkir" value="{{$service['cost'][0]['value']}}">
+                                    <h3 id="bayar">1. Lakukan Transfer Pada salah 1 Bank dibawah ini</h3>
+                                    <p class="d-flex px-5">
+                                        <span style="color: black;">Nama Bank</span>
+                                        <span style="color: black;">Nomor Rekening</span>
+                                        <span style="color: black;">Atas Nama</span>
+                                    </p>
+                                    @forelse ($store_banks as $store_bank)
+                                    <p class="d-flex px-5">
+                                        <span>{{ $store_bank->bank_name }}</span>
+                                        <span>{{ $store_bank->nomor_rekening }}</span>
+                                        <span>{{ $store_bank->atas_nama }}</span>
+                                    </p>
+                                    @empty
+                                    <span>Sayang sekali tidak dapat menemukan Bank :(</span>
+                                    @endforelse
+                                </div>
+                            </div>
+                            <div class="col-md-12 cart-wrap ftco-animate fadeInUp ftco-animated">
+                                <div class="cart-total mb-3">
+                                    <h3>2. Upload bukti Transfer dan Tekan Tombol "Saya Telah Bayar"</h3>
+                                    <p class="d-flex px-5">
+                                        <div class="form-control">
+                                            <input type="file" name="image" required>
+                                        </div>
+                                    </p>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Saya Telah Bayar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+        {{-- <div class="modal fade" id="myModal-{{ $service['description'] }}" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ikuti Instruksi untuk menyelesaikan transaksi</h5>
-                    <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
+                    <h5 class="modal-title" id="exampleModalLabel">Ikuti Instruksi untuk menyelesaikan transaksi
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="col-md-12 cart-wrap ftco-animate fadeInUp ftco-animated">
                         <div class="cart-total mb-3">
-                            <h3 >1. Lakukan Transfer Pada salah 1 Bank dibawah ini</h3>
+                            <h3>1. Lakukan Transfer Pada salah 1 Bank dibawah ini</h3>
                             <p class="d-flex px-5">
                                 <span style="color: black;">Nama Bank</span>
                                 <span style="color: black;">Nomor Rekening</span>
@@ -210,26 +264,23 @@
                     </div>
                     <div class="col-md-12 cart-wrap ftco-animate fadeInUp ftco-animated">
                         <div class="cart-total mb-3">
-                            <h3 >2. Upload bukti Transfer dan Tekan Tombol "Saya Telah Bayar"</h3>
+                            <h3>2. Upload bukti Transfer dan Tekan Tombol "Saya Telah Bayar"</h3>
                             <p class="d-flex px-5">
                                 <div class="form-control">
                                     <input type="file" name="image">
                                 </div>
                             </p>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                        data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Saya Telah Bayar</button>
                 </div>
             </div>
         </div>
-    </div>
-</form>
-    </div>
+    </div> --}}
+    </form>
+</div>
 </div>
 @endsection

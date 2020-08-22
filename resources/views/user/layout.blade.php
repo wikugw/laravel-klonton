@@ -213,6 +213,20 @@
         });
     });
 
+    $('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var service = button.data('service')
+  var ongkir = button.data('ongkir')
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-body #service').val(service)
+  modal.find('.modal-body #ongkir').val(ongkir)
+  modal.find('.modal-title').text('Pilihan paket ' + service)
+  modal.find('.modal-body #bayar').text('LAKUKAN TRANSFER SEJUMLAH RP.' + recipient + ' PADA SALAH 1 BANK DIBAWAH INI')
+})
+
 </script>
 
   </body>

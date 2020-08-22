@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\Transaction_detail;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Session;
+use Auth;
 
 class TransactionController extends Controller
 {
@@ -17,7 +19,16 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        $this->data['transactions'] = Transaction::orderBy('created_at', 'DESC')->get();
+
+        $transaction_ids[] = 0;
+        foreach ($this->data['transactions'] as $transaction) {
+            $transaction_ids[] = $transaction->id;
+        }
+        $this->data['transaction_details'] = Transaction_detail::whereIn('transaction_id', $transaction_ids)->get();
+
+        // return $this->data;
+        return view('admin.transactions.index', $this->data);
     }
 
     /**
@@ -49,7 +60,11 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->data['transaction_detail'] = Transaction_detail::findOrFail($id);
+        $this->data['transaction'] = Transaction::FindOrFail($this->data['transaction_detail']->transaction_id);
+        $this->data['destination_address'] = Address::FindOrFail($this->data['transaction']->address_id);
+        // return $this->data;
+        return view('admin.transactions.show', $this->data);
     }
 
     /**
@@ -100,13 +115,23 @@ class TransactionController extends Controller
         return redirect()->back();
     }
 
+    public function resi($id)
+    {
+        $this->data['transaction'] = Transaction::findOrFail($id);
+        return view('admin.transactions.add_resi', $this->data);
+    }
+
     public function add_resi(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'resi' => 'required|unique:transactions|max:191'
+        ]);
+
         $transaction = Transaction::findOrfail($id);
         $transaction->resi = $request->resi;
         $transaction->status = 3;
         $transaction->save();
         Session::flash('success', 'Resi telah ditambahkan');
-        return redirect()->back();
+        return redirect()->route('stores.transactions', Auth::user()->store_id);
     }
 }

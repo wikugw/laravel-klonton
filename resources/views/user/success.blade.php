@@ -7,8 +7,8 @@
                 <h2 class="mb-4">Transaksi Berhasil</h2>
                 <img src="{{url('storage/success-buy.png')}}" width="50%"/>
                 <p class="pt-5">Anda dapat melihat data transaksi pada tab
-                    <a href="">transaksi</a> atau kembali pada halaman
-                    <a href="">utama</a>
+                    <a href="{{ route('home.transactions') }}">transaksi</a> atau kembali pada halaman
+                    <a href="{{ route('home') }}">utama</a>
                 </p>
               </div>
         </div>

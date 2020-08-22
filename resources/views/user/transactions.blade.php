@@ -45,7 +45,7 @@
 
                             <td class="price">
                                 @if ($transaction_detail->transaction->resi == null)
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae, velit.
+                                Menunggu Resi ditambahkan
                                 @else
                                     {{ $transaction_detail->transaction->resi }}
                                 @endif

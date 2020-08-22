@@ -51,6 +51,11 @@
 								<span class="nav-text">User</span>
 								</a>
                             </li>
+                            <li  class="active" >
+								<a class="sidenav-item-link" href="{{ route('transactions.index') }}">
+								<span class="nav-text">Transaksi</span>
+								</a>
+							</li>
                             @else
                             <li  class="active" >
 								<a class="sidenav-item-link" href="{{ route('stores.show', Auth::user()->id) }}">

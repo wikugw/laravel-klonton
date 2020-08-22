@@ -284,6 +284,7 @@ class CartController extends Controller
         $transaction = $request->except('_token');
         $transaction['user_id'] = Auth::user()->id;
         $transaction['store_id'] = $cart->store_id;
+        $transaction['address_id'] = $address_id;
         $transaction['status'] = 1;
         $transaction['code'] = 'TRX-' . $cart_detail->id . '-' . time();
 

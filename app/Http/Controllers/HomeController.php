@@ -71,7 +71,7 @@ class HomeController extends Controller
         foreach ($this->data['transactions'] as $transaction) {
             $transaction_ids[] = $transaction->id;
         }
-        $this->data['transaction_details'] = Transaction_detail::whereIn('transaction_id', $transaction_ids)->get();
+        $this->data['transaction_details'] = Transaction_detail::whereIn('transaction_id', $transaction_ids)->orderBy('created_at', 'DESC')->get();
 
         return view('user.transactions', $this->data);
     }

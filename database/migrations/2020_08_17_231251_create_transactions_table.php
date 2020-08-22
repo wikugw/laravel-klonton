@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->string('code')->unique();
             $table->foreignId('store_id')->constrained('stores')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('address_id')->constrained('addresses')->onDelete('cascade');
             $table->integer('subtotal');
             $table->integer('ongkir');
             $table->string('service');

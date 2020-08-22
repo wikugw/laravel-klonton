@@ -13,6 +13,7 @@ class Transaction extends Model
         'code',
         'store_id',
         'user_id',
+        'address_id',
         'subtotal',
         'ongkir',
         'service',
@@ -29,5 +30,9 @@ class Transaction extends Model
     public function store()
     {
         return $this->belongsTo('App\Models\Store');
+    }
+    public function address()
+    {
+        return $this->belongsTo('App\Models\Address');
     }
 }

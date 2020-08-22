@@ -28,4 +28,9 @@ class Address extends Model
     {
         return $this->belongsTo('App\Models\Province');
     }
+
+    public function transaction()
+    {
+        return $this->hasOne('App\Models\Transaction');
+    }
 }
