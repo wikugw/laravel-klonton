@@ -63,31 +63,9 @@
                                 -
                                 @endif
                             </td>
-
-                            {{-- <td class="quantity">
-                                <div class="input-group mb-3">
-                                    <input type="text" name="quantity" class="quantity form-control input-number"
-                                        readonly value={{ $cart_detail->quantity }} min="1" max="100">
-                                </div>
-                            </td>
-
-                            <td class="total">Rp. {{ $cart_detail->total_price() }}</td>
-
-                            <td>
-                                <div class="row pl-1">
-                                    @if ($cart_detail->quantity > 1)
-                                    <a href="{{ route('carts.decrement_quantity', $cart_detail->id) }}"
-                                        class="btn btn-sm btn-secondary"><span class="ion-ios-remove"></a>
-                                    @endif
-                                    <a href="{{ route('carts.show', $cart_detail->id) }}"
-                                        class="btn btn-sm btn-primary mx-1">Checkout</a>
-                                    <a href="{{ route('carts.increment_quantity', $cart_detail->id) }}"
-                                        class="btn btn-sm btn-info"><span class="ion-ios-add"></a>
-                                </div>
-                            </td> --}}
                         </tr>
                         @empty
-                        <td class="text-center" colspan="8">Belum ada barang pada keranjang</td>
+                        <td class="text-center" colspan="8">Anda belum melakukan transaksi :(</td>
                         @endforelse
                         <!-- END TR-->
 

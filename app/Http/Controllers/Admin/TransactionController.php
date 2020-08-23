@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\Transaction_detail;
 use App\Models\Address;
+use App\Models\Store;
 use Illuminate\Http\Request;
 use Session;
 use Auth;
+use PDF;
 
 class TransactionController extends Controller
 {
@@ -19,7 +21,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $this->data['transactions'] = Transaction::orderBy('created_at', 'DESC')->get();
+        $this->data['transactions'] = Transaction::all();
+        // return $this->data['transactions'];
 
         $transaction_ids[] = 0;
         foreach ($this->data['transactions'] as $transaction) {
@@ -133,5 +136,24 @@ class TransactionController extends Controller
         $transaction->save();
         Session::flash('success', 'Resi telah ditambahkan');
         return redirect()->route('stores.transactions', Auth::user()->store_id);
+    }
+
+    public function export()
+    {
+        if (Auth::user()->role_id == '2') {
+            $this->data['transactions'] = Transaction::where('store_id', Auth::user()->store_id)->get();
+        } else {
+            $this->data['transactions'] = Transaction::all();
+        }
+
+        $transaction_ids[] = 0;
+        foreach ($this->data['transactions'] as $transaction) {
+            $transaction_ids[] = $transaction->id;
+        }
+        $this->data['transaction_details'] = Transaction_detail::whereIn('transaction_id', $transaction_ids)->get();
+
+        $pdf = PDF::loadView('admin.transactions.pdf', $this->data)->setPaper('a4', 'landscape');
+        return $pdf->download('sembarang.pdf');
+        return $this->data;
     }
 }

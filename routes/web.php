@@ -30,6 +30,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::get('transactions/{id}/confirm', 'TransactionController@confirm')->name('transactions.confirm');
     Route::get('transactions/{id}/resi', 'TransactionController@resi')->name('transactions.resi');
     Route::put('transactions/{id}/add_resi', 'TransactionController@add_resi')->name('transactions.add_resi');
+    Route::get('transactions/export', 'TransactionController@export')->name('transactions.export');
     Route::resource('transactions', 'TransactionController');
 });
 
