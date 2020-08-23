@@ -281,6 +281,17 @@
         </div>
     </div> --}}
     </form>
+
+        <div class="col-12" align="center">
+            <form action="{{ route('carts.delete_address', ['id' => $cart_detail->id, 'address_id' => $destination_address->id]) }}" method="post"
+                class="d-inline">
+                @method('delete')
+                @csrf
+                <button class="mt-5 btn btn-secondary" onclick="return confirm('Dengan menekan tombol ini anda harus memasukkan alamat ulang');">
+                    Kembali
+                </button>
+            </form>
+        </div>
 </div>
 </div>
 @endsection

@@ -307,4 +307,11 @@ class CartController extends Controller
         $cart_detail->delete();
         return redirect()->route('home.success');
     }
+
+    public function delete_address($id, $address_id)
+    {
+        $address = Address::findOrFail($address_id);
+        $address->delete();
+        return redirect()->route('carts.show', $id);
+    }
 }
