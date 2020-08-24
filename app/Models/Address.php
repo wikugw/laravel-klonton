@@ -33,4 +33,9 @@ class Address extends Model
     {
         return $this->hasOne('App\Models\Transaction');
     }
+
+    public function store()
+    {
+        return $this->belongsTo('App\Models\Store');
+    }
 }

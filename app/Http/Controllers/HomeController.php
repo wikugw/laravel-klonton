@@ -11,6 +11,8 @@ use App\Models\Cart_detail;
 use App\Models\City;
 use App\Models\Transaction;
 use App\Models\Transaction_detail;
+use App\Models\Store;
+use App\Models\Address;
 
 class HomeController extends Controller
 {
@@ -101,5 +103,48 @@ class HomeController extends Controller
         $transaction->status = 4;
         $transaction->save();
         return redirect()->route('home.transactions');
+    }
+
+    public function stores()
+    {
+        $this->data['stores'] = Store::all();
+        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+
+        $cart_ids[] = 0;
+        foreach ($this->data['carts'] as $cart) {
+            $cart_ids[] = $cart->id;
+        }
+        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+
+        $store_ids[] = 0;
+        foreach ($this->data['stores'] as $store) {
+            $store_ids[] = $store->id;
+        }
+        $this->data['store_addresses'] = Address::whereIn('store_id', $store_ids)->get();
+
+        foreach ($this->data['stores'] as $store) {
+            $store_ids[] = $store->id;
+        }
+
+        // return $this->data['store_addresses'];
+        return view('user.stores', $this->data);
+    }
+
+    public function store($id)
+    {
+        $this->data['store'] = Store::findOrFail($id);
+        $this->data['address'] = Address::where('store_id', $id)->first();
+        $this->data['products'] = Product::where('store_id', $id)->where('is_available', 1)->get();
+        $this->data['transactions'] = Transaction::where('store_id', $id)->where('status', 4)->get();
+
+        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+        $cart_ids[] = 0;
+        foreach ($this->data['carts'] as $cart) {
+            $cart_ids[] = $cart->id;
+        }
+        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+
+        // return $this->data;
+        return view('user.store', $this->data);
     }
 }

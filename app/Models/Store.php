@@ -43,4 +43,9 @@ class Store extends Model
     {
         return $this->hasMany('App\Models\Transaction');
     }
+
+    public function address()
+    {
+        return $this->hasOne('App\Models\Address');
+    }
 }
