@@ -56,27 +56,29 @@
 								<span class="nav-text">Transaksi</span>
 								</a>
 							</li>
-                            @else
+                            @elseif (Auth::user()->role_id == "2" && Auth::user()->store_id != "")
                             <li  class="active" >
-								<a class="sidenav-item-link" href="{{ route('stores.show', Auth::user()->id) }}">
+								<a class="sidenav-item-link" href="{{ route('stores.show', Auth::user()->store_id) }}">
 								<span class="nav-text">Toko</span>
 								</a>
                             </li>
                             <li  class="active" >
-								<a class="sidenav-item-link" href="{{ route('stores.products', Auth::user()->id) }}">
+								<a class="sidenav-item-link" href="{{ route('stores.products', Auth::user()->store_id) }}">
 								<span class="nav-text">Produk</span>
 								</a>
                             </li>
                             <li  class="active" >
-								<a class="sidenav-item-link" href="{{ route('stores.banks', Auth::user()->id) }}">
+								<a class="sidenav-item-link" href="{{ route('stores.banks', Auth::user()->store_id) }}">
 								<span class="nav-text">Bank</span>
 								</a>
                             </li>
                             <li  class="active" >
-								<a class="sidenav-item-link" href="{{ route('stores.transactions', Auth::user()->id) }}">
+								<a class="sidenav-item-link" href="{{ route('stores.transactions', Auth::user()->store_id) }}">
 								<span class="nav-text">Transaksi</span>
 								</a>
-							</li>
+                            </li>
+                            @else
+
                             @endif
 						</div>
 					</ul>

@@ -17,6 +17,8 @@ use App\Models\Cart;
 use App\Models\Cart_detail;
 use App\Models\Transaction;
 use App\Models\Transaction_detail;
+use App\Models\Province;
+use App\Models\City;
 
 class StoreController extends Controller
 {
@@ -39,7 +41,10 @@ class StoreController extends Controller
      */
     public function create()
     {
-        return view('admin.stores.create');
+        $this->data['provinces'] = Province::all();
+        $this->data['cities'] = City::all();
+
+        return view('admin.stores.create', $this->data);
     }
 
     /**
@@ -61,6 +66,7 @@ class StoreController extends Controller
             $filename = $params['slug'] . time() . '.' . $extension;
             $profile_toko->storeAs('public/profile_toko', $filename);
             $path_profile_toko = 'storage/profile_toko' . '/' . $filename;
+            $params['profile'] = $path_profile_toko;
         }
 
         if ($request->has('foto_ktp') && $request->foto_ktp != "undefined") {
@@ -69,16 +75,18 @@ class StoreController extends Controller
             $filename = $params['slug'] . time() . '.' . $extension;
             $foto_ktp->storeAs('public/foto_ktp', $filename);
             $path_foto_ktp = 'storage/foto_ktp' . '/' . $filename;
+            $params['foto_ktp'] = $path_foto_ktp;
         }
-
-        $params['profile'] = $path_profile_toko;
-        $params['foto_ktp'] = $path_foto_ktp;
 
         $this->data['store'] = Store::create($params)->id;
 
         $toko_user = User::findOrFail(Auth::user()->id);
         $toko_user->store_id = $this->data['store'];
         $toko_user->save();
+
+        $params['store_id'] = $this->data['store'];
+        Address::create($params);
+        Store_bank::create($params);
 
         Session::flash('success', 'Toko telah dibuat, menunggu persetujuan admin');
 
@@ -108,7 +116,11 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
+        $this->data['provinces'] = Province::all();
+        $this->data['cities'] = City::all();
+
         $this->data['store'] = Store::findOrFail($id);
+        $this->data['address'] = Address::where('store_id', $id)->first();
         return view('admin.stores.edit', $this->data);
     }
 
@@ -144,11 +156,13 @@ class StoreController extends Controller
 
         $store = Store::findOrFail($id);
 
-        if ($store->update($params)) {
-            Session::flash('success', 'Toko telah dibuat, menunggu persetujuan admin');
-        } else {
-            Session::flash('error', 'Tidak dapat membuat toko, coba ulangi');
-        }
+        $store->update($params);
+
+        $address = Address::where('store_id', $id)->first();
+        $params['store_id'] = $id;
+        $address->update($params);
+
+        Session::flash('success', 'Toko berhasil diupdate');
 
         return redirect()->route('stores.show', $id);
     }

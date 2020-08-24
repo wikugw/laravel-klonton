@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth']], function () {
+    Route::get('stores/{id}/activate', 'StoreController@activate')->name('stores.activate');
     Route::get('stores/{id}/products', 'StoreController@store_products')->name('stores.products');
     Route::get('stores/{id}/banks', 'StoreController@store_banks')->name('stores.banks');
     Route::get('store/{id}/transactions', 'StoreController@transactions')->name('stores.transactions');

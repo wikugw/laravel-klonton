@@ -27,12 +27,25 @@ class StoreRequest extends FormRequest
             return [
                 'name' => 'required|max:191',
                 'description' => 'required',
+                'adrress' => 'required|max:191',
+                'province_id' => 'required|integer',
+                'city_id' => 'required|integer',
+                'postal_code' => 'required|integer|digits:5',
+                'phone' => 'required|numeric|digits_between:12,13',
             ];
         } else {
             return [
                 'name' => 'required|max:191',
                 'description' => 'required',
                 'foto_ktp' => 'required|image',
+                'adrress' => 'required|max:191',
+                'province_id' => 'required|integer',
+                'city_id' => 'required|integer',
+                'postal_code' => 'required|integer|digits:5',
+                'phone' => 'required|numeric|digits_between:12,13',
+                'bank_name' => 'required|max:191',
+                'nomor_rekening' => 'required|unique:store_banks|max:191',
+                'atas_nama' => 'required|max:191',
             ];
         }
     }
