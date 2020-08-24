@@ -3,7 +3,38 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-lg-10 order-md-last">
+        <div class="col-lg-6 mb-5 ftco-animate fadeInUp ftco-animated">
+            <a href="{{url($product->image)}}" class="image-popup"><img src="{{url($product->image)}}" class="img-fluid"
+                    alt="Colorlib Template"></a>
+        </div>
+        <div class="col-lg-6 product-details pl-md-5 ftco-animate fadeInUp ftco-animated">
+            <h3>{{ $product->name }}</h3>
+            <div class="rating d-flex">
+                <p class="text-left mr-4">
+                    <a href="#" class="mr-2" style="color: #000;">{{ $transaction_details->count() }} <span
+                            style="color: #bbb;">Terjual</span></a>
+                </p>
+                <p class="text-left mr-4">
+                    <a href="#" class="mr-2" style="color: #000;">{{ $product->weight }} Gr<span style="color: #bbb;">
+                            Berat </span></a>
+                </p>
+                <p class="text-left mr-4">
+                    <a href="{{ route('home.store', $product->store_id) }}" class="mr-2" style="color: #000;">{{ $product->store->name }} <span
+                            style="color: #bbb;"> Penjual</span></a>
+                </p>
+            </div>
+            <p class="price"><span>Rp. {{ $product->price }}</span></p>
+            <p>{{ $product->description }}</p>
+
+            <p><a href="{{ route('carts.add', $product->id) }}" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 order-md-last">
+            <h3 class="py-3">Produk dengan kategori sama</h3>
             <div class="row">
                 {{-- dipake --}}
                 @forelse ($products as $product)
@@ -35,19 +66,6 @@
             </div>
             </div>
                 @endforelse
-            </div>
-        </div>
-
-        <div class="col-md-4 col-lg-2 sidebar">
-            <div class="sidebar-box-2">
-                <h2 class="heading mb-4"><a href="#">Kategori</a></h2>
-                <ul>
-                    @forelse ($categories as $category)
-                    <li><a href="{{ route('home.category', $category->id) }}">{{ $category->name }}</a></li>
-                    @empty
-
-                    @endforelse
-                </ul>
             </div>
         </div>
     </div>

@@ -49,6 +49,7 @@ Auth::routes();
 
 Route::get('/getCity/ajax/{id}', 'HomeController@getCitiesAjax');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/product/{id}', 'HomeController@product')->name('home.product');
 Route::get('/home/stores', 'HomeController@stores')->name('home.stores');
 Route::get('/home/stores/{id}', 'HomeController@store')->name('home.store');
 Route::get('/home/{id}', 'HomeController@category')->name('home.category');

@@ -34,6 +34,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12 col-lg-12 order-md-last">
+            <h3 class="py-3">Produk yang tersedia</h3>
             <div class="row">
                 {{-- dipake --}}
                 @forelse ($products as $product)
@@ -51,7 +52,7 @@
                             </div>
                             <p class="bottom-area d-flex px-3">
                                 <a href="{{ route('carts.add', $product->id) }}" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-                                <a href="#" class="buy-now text-center py-2">Detail<span><i class="ion-ios-eye ml-1"></i></span></a>
+                                <a href="{{ route('home.product', $product->id) }}" class="buy-now text-center py-2">Detail<span><i class="ion-ios-eye ml-1"></i></span></a>
                             </p>
                         </div>
                     </div>
