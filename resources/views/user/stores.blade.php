@@ -3,11 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-lg-10 order-md-last">
+        <div class="col-md-12 col-lg-12 order-md-last">
             <div class="row">
                 {{-- dipake --}}
                 @forelse ($store_addresses as $store_address)
-                    <div class="col-sm-6 col-md-6 col-lg-4 ftco-animate">
+                    <div class="col-sm-6 col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
                         <a href="#" class="img-prod"><img class="img-fluid"
                             src="{{url($store_address->store->profile)}}"

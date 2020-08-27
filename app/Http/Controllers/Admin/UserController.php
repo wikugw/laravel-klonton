@@ -9,6 +9,12 @@ use App\Http\Requests\UserRequest;
 use Session;
 use App\Models\Store;
 use App\Models\Cart;
+use App\Models\Store_bank;
+use App\Models\Cart_detail;
+use App\Models\Transaction;
+use App\Models\Transaction_detail;
+use App\Models\Address;
+use App\Models\Product;
 
 class UserController extends Controller
 {
@@ -109,17 +115,89 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrfail($id);
+        $store_banks = Store_bank::where('store_id', $user->store_id)->get();
+        $carts = Cart::where('store_id', $user->store_id)->get();
+
+        // mencari cart_detail yang ada pada toko
+        $cart_ids[] = 0;
+        foreach ($carts as $cart) {
+            $cart_ids[] = $cart->id;
+        }
+        $cart_details = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+
+        $transactions = Transaction::where('store_id', $user->store_id)->get();
+        $transaction_ids[] = 0;
+        foreach ($transactions as $transaction) {
+            $transaction_ids[] = $transaction->id;
+        }
+        $transaction_details = Transaction_detail::whereIn('transaction_id', $transaction_ids)->get();
+
+        $products = Product::where('store_id', $user->store_id)->get();
+
+        $store_address = Address::where('store_id', $user->store_id)->first();
+
+        if ($store_address) {
+            $store_address->delete($store_address->id);
+        } else {
+            // return "alamat gada";
+        }
+        // return $store_address;
+
+        // menghapus store bank
+        if (!$store_banks->isEmpty()) {
+            foreach ($store_banks as $store_bank) {
+                $store_bank->delete($store_bank->id);
+            }
+        } else {
+            // return "gada";
+        }
+
+        // menghapus $cart_details
+        if (!$cart_details->isEmpty()) {
+            foreach ($cart_details as $cart_detail) {
+                $cart_detail->delete($cart_detail->id);
+            }
+        } else {
+            // return "cart detail gada";
+        }
+        // menghapus $cart_details
+        if (!$carts->isEmpty()) {
+            foreach ($carts as $cart) {
+                $cart->delete($cart->id);
+            }
+        } else {
+            // return "cart gada";
+        }
+
+        // menghapus $transaction_details
+        if (!$transaction_details->isEmpty()) {
+            foreach ($transaction_details as $transaction_detail) {
+                $transaction_detail->delete($transaction_detail->id);
+            }
+        } else {
+            // return "transaction detail gada";
+        }
+
+        // menghapus $cart_details
+        if (!$transactions->isEmpty()) {
+            foreach ($transactions as $transaction) {
+                $transaction->delete($transaction->id);
+            }
+        } else {
+            // return "cart gada";
+        }
+
+        if (!$products->isEmpty()) {
+            foreach ($products as $product) {
+                $product->delete($product->id);
+            }
+        } else {
+            // return "product gada";
+        }
 
         $store = Store::where('user_id', $id)->first();
         if ($store) {
             $store->delete();
-        }
-
-        $carts = Cart::where('user_id', $id)->get();
-        if ($carts) {
-            foreach ($carts as $cart) {
-                $cart->delete();
-            }
         }
 
         if ($user->delete()) {

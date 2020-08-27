@@ -88,7 +88,11 @@ class StoreBankController extends Controller
         $store_bank = Store_bank::findOrFail($id);
         $store_bank->update($params);
         Session::flash('success', 'Berhasil mengupdate Bank');
-        return redirect()->route('store_banks.index');
+        if (Auth::user()->role_id == '1') {
+            return redirect()->route('store_banks.index');
+        } else {
+            return redirect()->route('stores.banks', Auth::user()->store_id);
+        }
     }
 
     /**

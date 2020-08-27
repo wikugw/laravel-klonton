@@ -7,6 +7,9 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Store;
 use App\Http\Requests\ProductRequest;
+use App\Models\Cart_detail;
+use App\Models\Transaction;
+use App\Models\Transaction_detail;
 use Illuminate\Http\Request;
 use Str;
 use Auth;
@@ -69,7 +72,7 @@ class ProductController extends Controller
             Session::flash('error', 'Tidak dapat membuat produk, coba ulangi');
         }
 
-        return redirect()->route('stores.products', Auth::user()->id);
+        return redirect()->route('stores.products', Auth::user()->store_id);
     }
 
     /**
@@ -118,9 +121,9 @@ class ProductController extends Controller
             $filename = $params['slug'] . time() . '.' . $extension;
             $image->storeAs('public/gambar_produk', $filename);
             $path_gambar_produk = 'storage/gambar_produk' . '/' . $filename;
+            $params['image'] = $path_gambar_produk;
         }
 
-        $params['image'] = $path_gambar_produk;
         // return $params;
         $product = Product::findOrFail($id);
 
@@ -130,7 +133,7 @@ class ProductController extends Controller
             Session::flash('error', 'Tidak dapat mengupdate produk, coba ulangi');
         }
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.show', $id);
     }
 
     /**
@@ -142,9 +145,25 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrfail($id);
-        if ($product->delete()) {
-            Session::flash('success', 'Produk berhasil dihapus!');
+        $carts = Cart_detail::where('product_id', $id)->get();
+        $transaction_details = Transaction_detail::where('product_id', $id)->get();
+
+        if (!$transaction_details->isEmpty()) {
+            foreach ($transaction_details as $transaction_detail) {
+                $transaction = Transaction::findOrFail($transaction_detail->transaction_id);
+                $transaction_detail->delete();
+                $transaction->delete();
+            }
         }
+
+        if ($carts) {
+            foreach ($carts as $cart) {
+                $cart->delete();
+            }
+        }
+
+        $product->delete();
+
         return redirect()->back();
     }
 }

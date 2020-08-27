@@ -105,55 +105,8 @@
                                                     class="mb-1 mx-1 btn btn-sm btn-info">
                                                     <span class="mdi mdi-eye"></span>
                                                 </a>
-                                                {{-- delete --}}
-                                                <form
-                                                    action="{{ route('transactions.destroy', $transaction_detail->id) }}"
-                                                    method="post" class="d-inline">
-                                                    @method('delete')
-                                                    @csrf
-                                                    <button class="btn btn-sm btn-danger"
-                                                        onclick="return confirm('Yakin ingin menghapus produk?');">
-                                                        <span class="mdi mdi-delete"></span>
-                                                    </button>
-                                                </form>
                                             </div>
                                         </td>
-                                        {{-- modal resi --}}
-                                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLongTitle">Tambah Resi
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form
-                                                            action="{{ route('transactions.add_resi', $transaction_detail->transaction_id) }}"
-                                                            method="POST">
-                                                            @method('PUT')
-                                                            @csrf
-                                                            <div class="form-group">
-                                                                <label for="resi">Nomor Resi</label>
-                                                                <input required type="text" class="form-control"
-                                                                    id="resi" name="resi" placeholder="Masukkan Resi">
-                                                                <span class="mt-2 d-block">* Harus Unik.</span>
-                                                            </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Tutup</button>
-                                                        <button type="submit" class="btn btn-primary">Tambah
-                                                            Resi</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </tr>
                                     @empty
                                     <td class="text-center" colspan="11"> Produk tidak ditemukan </td>

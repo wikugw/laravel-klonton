@@ -60,6 +60,11 @@
                                     <div class="form-group">
                                         <label for="is_available">Tersedia</label>
                                         <select name="is_available" class="form-control">
+                                            @if ($product->is_available == '0')
+                                            <option value="{{ $product->is_available }}">Tidak</option>
+                                            @else
+                                            <option value="{{ $product->is_available }}">Tersedia</option>
+                                            @endif
                                             <option value="0">Tidak</option>
                                             <option value="1">Tersedia</option>
                                         </select>

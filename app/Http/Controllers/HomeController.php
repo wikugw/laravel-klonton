@@ -160,7 +160,9 @@ class HomeController extends Controller
         $this->data['product'] = Product::findOrFail($id);
 
         $this->data['transaction_details'] = Transaction_detail::where('product_id', $id)->get();
-        $this->data['products'] = Product::where('id', '!=', $this->data['product']->id)->where('category_id', $this->data['product']->category_id)->get();
+        $this->data['products'] = Product::where('id', '!=', $this->data['product']->id)
+            ->where('is_available', '1')
+            ->where('category_id', $this->data['product']->category_id)->get();
 
         // return $this->data;
         return view('user.product', $this->data);

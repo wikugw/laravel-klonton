@@ -20,6 +20,7 @@
             <div class="col-xl-3 col-lg-4">
                 <p class="text-dark mb-2">Detail Pengiriman</p>
                 <address>
+                    Pembeli : {{ $transaction->user->name }} <br>
                     Kurir : {{ $transaction->service }}
                     <br> Resi : @if ($transaction->resi)
                         {{ $transaction->resi }}

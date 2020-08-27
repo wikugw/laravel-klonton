@@ -153,7 +153,7 @@ class TransactionController extends Controller
         $this->data['transaction_details'] = Transaction_detail::whereIn('transaction_id', $transaction_ids)->get();
 
         $pdf = PDF::loadView('admin.transactions.pdf', $this->data)->setPaper('a4', 'landscape');
-        return $pdf->download('sembarang.pdf');
+        return $pdf->download('data transaksi.pdf');
         return $this->data;
     }
 }

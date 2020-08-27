@@ -52,7 +52,12 @@
                             <h5 class="ml-3 mt-3 font-weight-medium">{{ $product->description }}</h5>
                         </div>
                         <div class="form-footer pt-2">
-                            <a href="{{ URL::previous() }}" class="btn btn-secondary btn-default">Back</a>
+                            @if (Auth::user()->role_id == '2')
+                            <a href="{{ route('stores.products', Auth::user()->store_id) }}" class="btn btn-secondary btn-default">Back</a>
+                            @else
+                            <a href="{{ route('products.index') }}" class="btn btn-secondary btn-default">Back</a>
+                            @endif
+
                         </div>
                     </div>
                 </div>

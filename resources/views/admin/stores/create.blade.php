@@ -35,7 +35,7 @@
                                         <span class="mt-2 d-block">* Wajib diisi.</span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="bank_name">Nama Bank</label>
+                                        <label for="bank_name">Nama Bank <span style="color: grey; text-transform: none">*Anda dapat menambah Bank lain pada tab Bank</span></label>
                                         <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Masukkan nama Bank">
                                         <span class="mt-2 d-block">* Wajib diisi.</span>
                                     </div>

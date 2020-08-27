@@ -162,7 +162,7 @@
                                         data-ongkir="{{$service['cost'][0]['value']}}"
                                         data-service="{{ strtoupper($picked_service)}} - {{$service['description']}} ({{ $service['service'] }})"
                                         data-whatever="{{( $price_total + $service['cost'][0]['value'])}}">
-                                        Open modal {{ $service['service'] }}
+                                        Pilih
                                     </button>
                                 </td>
 
@@ -230,56 +230,6 @@
                 </div>
             </div>
         </div>
-        <!-- Modal -->
-        {{-- <div class="modal fade" id="myModal-{{ $service['description'] }}" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ikuti Instruksi untuk menyelesaikan transaksi
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="col-md-12 cart-wrap ftco-animate fadeInUp ftco-animated">
-                        <div class="cart-total mb-3">
-                            <h3>1. Lakukan Transfer Pada salah 1 Bank dibawah ini</h3>
-                            <p class="d-flex px-5">
-                                <span style="color: black;">Nama Bank</span>
-                                <span style="color: black;">Nomor Rekening</span>
-                                <span style="color: black;">Atas Nama</span>
-                            </p>
-                            @forelse ($store_banks as $store_bank)
-                            <p class="d-flex px-5">
-                                <span>{{ $store_bank->bank_name }}</span>
-                                <span>{{ $store_bank->nomor_rekening }}</span>
-                                <span>{{ $store_bank->atas_nama }}</span>
-                            </p>
-                            @empty
-                            <span>Sayang sekali tidak dapat menemukan Bank :(</span>
-                            @endforelse
-                        </div>
-                    </div>
-                    <div class="col-md-12 cart-wrap ftco-animate fadeInUp ftco-animated">
-                        <div class="cart-total mb-3">
-                            <h3>2. Upload bukti Transfer dan Tekan Tombol "Saya Telah Bayar"</h3>
-                            <p class="d-flex px-5">
-                                <div class="form-control">
-                                    <input type="file" name="image">
-                                </div>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Saya Telah Bayar</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     </form>
 
         <div class="col-12" align="center">

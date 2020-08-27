@@ -191,6 +191,14 @@ class StoreController extends Controller
         $cart_details = Cart_detail::whereIn('cart_id', $cart_ids)->get();
         // mencari store_bank
         $store_banks = Store_bank::where('store_id', $id)->get();
+
+        $transactions = Transaction::where('store_id', $id)->get();
+        $transaction_ids[] = 0;
+        foreach ($transactions as $transaction) {
+            $transaction_ids[] = $transaction->id;
+        }
+        $transaction_details = Transaction_detail::whereIn('transaction_id', $transaction_ids)->get();
+
         // mencari pengguna toko
         $user = User::findOrFail($store->user_id);
         $user->store_id = null;
@@ -234,6 +242,24 @@ class StoreController extends Controller
         } else {
             // return "product gada";
         }
+
+        if (!$transaction_details->isEmpty()) {
+            foreach ($transaction_details as $transaction_detail) {
+                $transaction_detail->delete($transaction_detail->id);
+            }
+        } else {
+            // return "transaction detail gada";
+        }
+
+        // menghapus $cart_details
+        if (!$transactions->isEmpty()) {
+            foreach ($transactions as $transaction) {
+                $transaction->delete($transaction->id);
+            }
+        } else {
+            // return "cart gada";
+        }
+
         $store->delete();
 
         Session::flash('success', 'Toko berhasil dihapus!');

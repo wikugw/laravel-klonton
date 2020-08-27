@@ -8,7 +8,7 @@
 		<!-- Aplication Brand -->
 		<div class="app-brand">
 			<a href="">
-			<span class="brand-name">Klontong Dashboard</span>
+			<span class="brand-name" style="font-size: 15px">Sumbersekar Dashboard</span>
 			</a>
 		</div>
 		<!-- begin sidebar scrollbar -->
@@ -20,7 +20,8 @@
 					<a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#dashboard"
                         aria-expanded="false" aria-controls="dashboard">
 						<i class="mdi mdi-store"></i>
-						<span class="nav-text">Barang</span> <b class="caret"></b>
+                        <span class="nav-text">{{ Auth::user()->name }}</span>
+                        <b class="caret"></b>
 					</a>
 					<ul  class="collapse show"  id="dashboard"
 						data-parent="#sidebar-menu">
@@ -51,7 +52,7 @@
 								<span class="nav-text">User</span>
 								</a>
                             </li>
-                            <li  class="active" >
+                            <li  class="" >
 								<a class="sidenav-item-link" href="{{ route('transactions.index') }}">
 								<span class="nav-text">Transaksi</span>
 								</a>
