@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -35,13 +35,18 @@ class HomeController extends Controller
     {
         $this->data['products'] = Product::where('is_available', '1')->get();
         $this->data['categories'] = Category::all();
-        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
-        // return $this->data['carts'];
-        $cart_ids[] = 0;
-        foreach ($this->data['carts'] as $cart) {
-            $cart_ids[] = $cart->id;
+        if (Auth::user()) {
+            $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+            $cart_ids[] = 0;
+            foreach ($this->data['carts'] as $cart) {
+                $cart_ids[] = $cart->id;
+            }
+            $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+        } else {
+            $this->data['carts'] = 0;
+            $this->data['cart_details'] = 0;
         }
-        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+
         return view('user.shop', $this->data);
     }
 
@@ -49,12 +54,17 @@ class HomeController extends Controller
     {
         $this->data['products'] = Product::where('category_id', $id)->where('is_available', '1')->get();
         $this->data['categories'] = Category::all();
-        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
-        $cart_ids[] = 0;
-        foreach ($this->data['carts'] as $cart) {
-            $cart_ids[] = $cart->id;
+        if (Auth::user()) {
+            $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+            $cart_ids[] = 0;
+            foreach ($this->data['carts'] as $cart) {
+                $cart_ids[] = $cart->id;
+            }
+            $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+        } else {
+            $this->data['carts'] = 0;
+            $this->data['cart_details'] = 0;
         }
-        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
         return view('user.shop', $this->data);
     }
 
@@ -108,13 +118,17 @@ class HomeController extends Controller
     public function stores()
     {
         $this->data['stores'] = Store::all();
-        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
-
-        $cart_ids[] = 0;
-        foreach ($this->data['carts'] as $cart) {
-            $cart_ids[] = $cart->id;
+        if (Auth::user()) {
+            $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+            $cart_ids[] = 0;
+            foreach ($this->data['carts'] as $cart) {
+                $cart_ids[] = $cart->id;
+            }
+            $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+        } else {
+            $this->data['carts'] = 0;
+            $this->data['cart_details'] = 0;
         }
-        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
 
         $store_ids[] = 0;
         foreach ($this->data['stores'] as $store) {
@@ -137,12 +151,17 @@ class HomeController extends Controller
         $this->data['products'] = Product::where('store_id', $id)->where('is_available', 1)->get();
         $this->data['transactions'] = Transaction::where('store_id', $id)->where('status', 4)->get();
 
-        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
-        $cart_ids[] = 0;
-        foreach ($this->data['carts'] as $cart) {
-            $cart_ids[] = $cart->id;
+        if (Auth::user()) {
+            $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+            $cart_ids[] = 0;
+            foreach ($this->data['carts'] as $cart) {
+                $cart_ids[] = $cart->id;
+            }
+            $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+        } else {
+            $this->data['carts'] = 0;
+            $this->data['cart_details'] = 0;
         }
-        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
 
         // return $this->data;
         return view('user.store', $this->data);
@@ -150,12 +169,17 @@ class HomeController extends Controller
 
     public function product($id)
     {
-        $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
-        $cart_ids[] = 0;
-        foreach ($this->data['carts'] as $cart) {
-            $cart_ids[] = $cart->id;
+        if (Auth::user()) {
+            $this->data['carts'] = Cart::where('user_id', Auth::user()->id)->get();
+            $cart_ids[] = 0;
+            foreach ($this->data['carts'] as $cart) {
+                $cart_ids[] = $cart->id;
+            }
+            $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
+        } else {
+            $this->data['carts'] = 0;
+            $this->data['cart_details'] = 0;
         }
-        $this->data['cart_details'] = Cart_detail::whereIn('cart_id', $cart_ids)->get();
 
         $this->data['product'] = Product::findOrFail($id);
 

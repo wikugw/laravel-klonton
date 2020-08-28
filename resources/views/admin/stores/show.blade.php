@@ -13,7 +13,7 @@
                             @if ($store->profile == "")
                             <img src="{{url('storage/profile_toko/kosong.png')}}" />
                             @else
-                            <img src="{{url($store->profile)}}" alt="profile toko" width="100%" height="100%">
+                            <img src="{{ route('gambar', ['path' => $store->profile])  }}" alt="profile toko" width="100%" height="100%">
                             @endif
                         </div>
                         <div class="card-body">
@@ -52,7 +52,7 @@
                             <h4 class="pt-4 text-dark mb-2">Deskripsi</h4>
                             <p class="py-2 text-dark mb-2">{{ $store->description }}</p>
                             <h4 class="pt-4 text-dark mb-3">Foto KTP</h4>
-                            <img src="{{url($store->foto_ktp)}}" class="img-thumbnail" alt="profile toko">
+                            <img src="{{ route('gambar', ['path' => $store->foto_ktp])  }}" class="img-thumbnail" alt="profile toko">
                         </div>
                         <div class="tab-pane fade" id="product" role="tabpanel" aria-labelledby="product-tab">
                             <div class="py-4">

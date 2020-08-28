@@ -60,7 +60,7 @@ class ProductController extends Controller
             $extension = $image->getClientOriginalExtension();
             $filename = $params['slug'] . time() . '.' . $extension;
             $image->storeAs('public/gambar_produk', $filename);
-            $path_gambar_produk = 'storage/gambar_produk' . '/' . $filename;
+            $path_gambar_produk = 'gambar_produk' . '/' . $filename;
         }
 
         $params['image'] = $path_gambar_produk;
@@ -120,7 +120,7 @@ class ProductController extends Controller
             $extension = $image->getClientOriginalExtension();
             $filename = $params['slug'] . time() . '.' . $extension;
             $image->storeAs('public/gambar_produk', $filename);
-            $path_gambar_produk = 'storage/gambar_produk' . '/' . $filename;
+            $path_gambar_produk = 'gambar_produk' . '/' . $filename;
             $params['image'] = $path_gambar_produk;
         }
 

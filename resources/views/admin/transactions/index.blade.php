@@ -66,9 +66,11 @@
                                         <td>Rp. {{ $transaction_detail->transaction->subtotal }}</td>
                                         <td>Rp. {{ $transaction_detail->transaction->ongkir }}</td>
                                         <td>
-                                            <img class="img-fluid"
-                                                src="{{url($transaction_detail->transaction->bukti_transfer)}}"
+                                            <a href="{{ route('gambar', ['path' => $transaction_detail->transaction->bukti_transfer])  }}"">
+                                                <img class="img-fluid"
+                                            src="{{ route('gambar', ['path' => $transaction_detail->transaction->bukti_transfer])  }}"
                                                 alt="Colorlib Template" style=" object-fit: contain" width="100px">
+                                            </a>
                                         </td>
                                         <td>
                                             @if ($transaction_detail->transaction->resi)
@@ -109,7 +111,7 @@
                                         </td>
                                     </tr>
                                     @empty
-                                    <td class="text-center" colspan="11"> Produk tidak ditemukan </td>
+                                    <td class="text-center" colspan="11"> Belum ada transaksi </td>
                                     @endforelse
                                 </tbody>
                             </table>

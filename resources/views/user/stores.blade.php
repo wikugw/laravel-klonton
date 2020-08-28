@@ -10,7 +10,7 @@
                     <div class="col-sm-6 col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
                         <a href="#" class="img-prod"><img class="img-fluid"
-                            src="{{url($store_address->store->profile)}}"
+                            src="{{ route('gambar', ['path' => $store_address->store->profile])  }}"
                             alt="Colorlib Template" style="height: 300px; object-fit: contain" width="100%">
                             <div class="overlay"></div>
                         </a>

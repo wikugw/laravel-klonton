@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-6 mb-5 ftco-animate fadeInUp ftco-animated">
-            <a href="{{url($store->profile)}}" class="image-popup"><img src="{{url($store->profile)}}" class="img-fluid"
+            <a href="{{url($store->profile)}}" class="image-popup"><img src="{{ route('gambar', ['path' => $store->profile])  }}" class="img-fluid"
                     alt="Colorlib Template"></a>
         </div>
         <div class="col-lg-6 product-details pl-md-5 ftco-animate fadeInUp ftco-animated">
@@ -40,7 +40,7 @@
                 @forelse ($products as $product)
                     <div class="col-sm-6 col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
-                        <a href="#" class="img-prod"><img class="img-fluid" src="{{url($product->image)}}" alt="Colorlib Template" style="height: 300px; object-fit: contain" width="100%">
+                        <a href="#" class="img-prod"><img class="img-fluid" src="{{ route('gambar', ['path' => $product->image])  }}" alt="Colorlib Template" style="height: 300px; object-fit: contain" width="100%">
                             <div class="overlay"></div>
                         </a>
                         <div class="text py-3 px-3">

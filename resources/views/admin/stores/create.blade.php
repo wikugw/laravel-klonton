@@ -85,8 +85,8 @@
                                     {{-- nomor telepon --}}
                                     <div class="form-group">
                                         <label for="phone">Nomor Telepon</label>
-                                        <input type="number" class="form-control" id="phone" name="phone" placeholder="Masukkan Nomor Telepon">
-                                        <span class="mt-2 d-block">* Wajib diisi.</span>
+                                        <input type="text" class="form-control" id="phone" name="phone" placeholder="Masukkan Nomor Telepon">
+                                        <span class="mt-2 d-block">* Wajib diisi terdiri dari 12 - 13 Karakter.</span>
                                     </div>
                                 </div>
                             </div>

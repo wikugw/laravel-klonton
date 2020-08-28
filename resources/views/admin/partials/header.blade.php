@@ -17,7 +17,7 @@
                 @if (Auth::user()->profile_photo == '')
                 <img src="{{url('storage/foto_user/kosong.png')}}" class="user-image"/>
                 @else
-                <img src="{{url(Auth::user()->profile_photo)}}" alt="profile toko" class="user-image">
+                <img src="{{ route('gambar', ['path' => Auth::user()->profile_photo])  }}" alt="profile toko" class="user-image">
                 @endif
               <span class="d-none d-lg-inline-block">{{ Auth::user()->name }}</span>
             </button>
@@ -27,7 +27,7 @@
                 @if (Auth::user()->profile_photo == '')
                 <img src="{{url('storage/foto_user/kosong.png')}}" class="img-circle"/>
                 @else
-                <img src="{{url(Auth::user()->profile_photo)}}" alt="profile toko" class="img-circle">
+                <img src="{{ route('gambar', ['path' => Auth::user()->profile_photo])  }}" alt="profile toko" class="img-circle">
                 @endif
                 <div class="d-inline-block">
                     {{ Auth::user()->name }} <small class="pt-1">{{ Auth::user()->email }}</small>

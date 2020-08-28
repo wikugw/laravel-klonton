@@ -15,6 +15,11 @@ th {
 td {
     padding-left: 10px;
 }
+
+.kosong {
+    margin-top: 5px !important;
+    border: 1px solid black !important;
+}
 </style>
 </head>
 
@@ -82,7 +87,7 @@ td {
                     <td>{{ $transaction_detail->transaction->created_at }}</td>
                 </tr>
                 @empty
-                <td class="text-center" colspan="11"> Produk tidak ditemukan </td>
+                <td class="kosong" align="center" colspan="10"> Belum ada transaksi </td>
                 @endforelse
             </tbody>
         </thead>

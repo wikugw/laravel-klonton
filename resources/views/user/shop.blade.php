@@ -9,7 +9,7 @@
                 @forelse ($products as $product)
                     <div class="col-sm-6 col-md-6 col-lg-4 ftco-animate">
                     <div class="product">
-                        <a href="#" class="img-prod"><img class="img-fluid" src="{{url($product->image)}}" alt="Colorlib Template" style="height: 300px; object-fit: contain" width="100%">
+                        <a href="#" class="img-prod"><img class="img-fluid" src="{{ route('gambar', ['path' => $product->image])  }}" alt="Colorlib Template" style="height: 300px; object-fit: contain" width="100%">
                             <div class="overlay"></div>
                         </a>
                         <div class="text py-3 px-3">
@@ -40,7 +40,7 @@
 
         <div class="col-md-4 col-lg-2 sidebar">
             <div class="sidebar-box-2">
-                <h2 class="heading mb-4"><a href="#">Kategori</a></h2>
+                <h2 class="heading mb-4"><a href="{{ route('home') }}">Kategori</a></h2>
                 <ul>
                     @forelse ($categories as $category)
                     <li><a href="{{ route('home.category', $category->id) }}">{{ $category->name }}</a></li>

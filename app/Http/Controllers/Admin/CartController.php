@@ -293,7 +293,7 @@ class CartController extends Controller
             $extension = $image->getClientOriginalExtension();
             $filename = 'TRX-' . $cart_detail->id . '-' . time() . '.' . $extension;
             $image->storeAs('public/bukti_transfer', $filename);
-            $path_bukti_transfer = 'storage/bukti_transfer' . '/' . $filename;
+            $path_bukti_transfer = 'bukti_transfer' . '/' . $filename;
         }
         $transaction['bukti_transfer'] = $path_bukti_transfer;
         // tambah data transaksi database

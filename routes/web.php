@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('user.welcome');
 });
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('stores/{id}/activate', 'StoreController@activate')->name('stores.activate');
@@ -48,12 +53,19 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth']], function () {
 
 Auth::routes();
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/success', 'HomeController@success')->name('home.success');
+    Route::get('/transactions', 'HomeController@transactions')->name('home.transactions');
+    Route::get('/receive/{id}', 'HomeController@receive')->name('home.receive');
+});
+
 Route::get('/getCity/ajax/{id}', 'HomeController@getCitiesAjax');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/product/{id}', 'HomeController@product')->name('home.product');
 Route::get('/home/stores', 'HomeController@stores')->name('home.stores');
 Route::get('/home/stores/{id}', 'HomeController@store')->name('home.store');
 Route::get('/home/{id}', 'HomeController@category')->name('home.category');
-Route::get('/success', 'HomeController@success')->name('home.success');
-Route::get('/transactions', 'HomeController@transactions')->name('home.transactions');
-Route::get('/receive/{id}', 'HomeController@receive')->name('home.receive');
+
+Route::get('getImage/{path}', function ($path) {
+    return Storage::download('public/' . $path);
+})->where(['path' => '.*'])->name('gambar');

@@ -9,7 +9,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <img src="{{url($product->image)}}" alt="gambar produk" width="100%" height="100%">
+                        <img src="{{ route('gambar', ['path' => $product->image])  }}" alt="gambar produk" width="100%" height="100%">
                     </div>
                     <div class="col-lg-6">
                         <div class="row">

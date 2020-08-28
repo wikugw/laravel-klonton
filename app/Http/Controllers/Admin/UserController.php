@@ -90,7 +90,7 @@ class UserController extends Controller
             $extension = $profile_photo->getClientOriginalExtension();
             $filename = $params['name'] . time() . '.' . $extension;
             $profile_photo->storeAs('public/foto_user', $filename);
-            $path_foto_user = 'storage/foto_user' . '/' . $filename;
+            $path_foto_user = 'foto_user' . '/' . $filename;
             $params['profile_photo'] = $path_foto_user;
         }
 

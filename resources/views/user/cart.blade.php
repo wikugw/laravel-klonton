@@ -32,7 +32,7 @@
                             </td>
 
                             <td class="image-prod">
-                                <img class="img-fluid" src="{{url($cart_detail->product->image)}}"
+                                <img class="img-fluid" src="{{ route('gambar', ['path' => $cart_detail->product->image])  }}"
                                     alt="Colorlib Template" style=" object-fit: contain" width="100px">
                             </td>
 

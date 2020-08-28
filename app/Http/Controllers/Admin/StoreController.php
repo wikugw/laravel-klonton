@@ -65,7 +65,7 @@ class StoreController extends Controller
             $extension = $profile_toko->getClientOriginalExtension();
             $filename = $params['slug'] . time() . '.' . $extension;
             $profile_toko->storeAs('public/profile_toko', $filename);
-            $path_profile_toko = 'storage/profile_toko' . '/' . $filename;
+            $path_profile_toko = 'profile_toko' . '/' . $filename;
             $params['profile'] = $path_profile_toko;
         }
 
@@ -74,7 +74,7 @@ class StoreController extends Controller
             $extension = $foto_ktp->getClientOriginalExtension();
             $filename = $params['slug'] . time() . '.' . $extension;
             $foto_ktp->storeAs('public/foto_ktp', $filename);
-            $path_foto_ktp = 'storage/foto_ktp' . '/' . $filename;
+            $path_foto_ktp = 'foto_ktp' . '/' . $filename;
             $params['foto_ktp'] = $path_foto_ktp;
         }
 
@@ -141,7 +141,7 @@ class StoreController extends Controller
             $extension = $profile_toko->getClientOriginalExtension();
             $filename = $params['slug'] . time() . '.' . $extension;
             $profile_toko->storeAs('public/profile_toko', $filename);
-            $path_profile_toko = 'storage/profile_toko' . '/' . $filename;
+            $path_profile_toko = 'profile_toko' . '/' . $filename;
             $params['profile'] = $path_profile_toko;
         }
 
@@ -150,7 +150,7 @@ class StoreController extends Controller
             $extension = $foto_ktp->getClientOriginalExtension();
             $filename = $params['slug'] . time() . '.' . $extension;
             $foto_ktp->storeAs('public/foto_ktp', $filename);
-            $path_foto_ktp = 'storage/foto_ktp' . '/' . $filename;
+            $path_foto_ktp = 'foto_ktp' . '/' . $filename;
             $params['foto_ktp'] = $path_foto_ktp;
         }
 
