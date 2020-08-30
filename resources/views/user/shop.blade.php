@@ -1,6 +1,20 @@
 @extends('user.layout')
 
 @section('content')
+
+<div class="hero-wrap hero-bread mb-5" style="
+background-image: url(https://images.unsplash.com/photo-1584192134994-726100c5d92a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1517&q=80)">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+            <h1 class="mb-0 bread" style=" text-shadow: 0 1px 0 darkgrey; ">Sumbersekar-Mart</h1>
+              <p class="breadcrumbs py-1" style="font-size: 16px; text-shadow: 0 1px 0 darkgrey; font-weight: bold; text-transform: none; color: white ">Bumdes Sekar Abadi Desa Sumbersekar</p>
+              <p class="breadcrumbs" style="font-size: 14px; text-shadow: 0 1px 0 darkgrey; font-weight: bold; text-transform: none; color: white">SUMBERSEKAR - MART merupakan kegiatan pengabdian kepada masyarakat yang di lakukan oleh kolaborasi dosen FILKOM UNIVERSITAS BRAWIJAYA</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-lg-10 order-md-last">

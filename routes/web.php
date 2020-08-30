@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', function () {
-    return view('user.welcome');
+    return redirect()->route('home');
 });
 
 Route::get('/login', function () {
