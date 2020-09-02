@@ -69,9 +69,9 @@ class StoreBankController extends Controller
      */
     public function edit($id)
     {
-        $store = Store::where('user_id', Auth::user()->id)->first();
-        $this->data['store'] = $store;
         $this->data['store_bank'] = Store_bank::findOrFail($id);
+        $store = Store::findOrFail($this->data['store_bank']->store_id);
+        $this->data['store'] = $store;
         return view('admin.store_banks.edit', $this->data);
     }
 

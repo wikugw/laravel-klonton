@@ -112,7 +112,8 @@ class ProductController extends Controller
     {
         $params = $request->except('_token');
         $params['slug'] = Str::slug($params['name']);
-        $store = Store::where('user_id', Auth::user()->id)->first();
+        $product = Product::findOrFail($id);
+        $store = Store::findOrFail($product->store_id);
         $params['store_id'] = $store->id;
 
         if ($request->has('image') && $request->image != "undefined") {
@@ -125,7 +126,6 @@ class ProductController extends Controller
         }
 
         // return $params;
-        $product = Product::findOrFail($id);
 
         if ($product->update($params)) {
             Session::flash('success', 'Produk berhasil di update!');
