@@ -75,6 +75,7 @@
     <script>
         jQuery(document).ready(function () {
             jQuery('#basic-data-table').DataTable({
+                "order": [[ 0, "desc" ]],
                 "dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information "ip><"clear">'
             });
         });

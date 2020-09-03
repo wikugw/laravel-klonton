@@ -18,6 +18,8 @@ use App\Models\Store;
 use App\Models\Store_bank;
 use App\Models\Transaction;
 use App\Models\Transaction_detail;
+use App\Notifications\konfirmasiPembayaran;
+use App\User;
 
 class CartController extends Controller
 {
@@ -272,6 +274,7 @@ class CartController extends Controller
 
     public function pay(Request $request, $id, $address_id, $courier)
     {
+        // return $id;
         // mencari cart detail
         $cart_detail = Cart_detail::findOrFail($id);
         // mencari cart
@@ -302,9 +305,13 @@ class CartController extends Controller
         $transaction_detail['transaction_id'] = $transaction;
         $transaction_detail['product_id'] = $product->id;
         $transaction_detail['quantity'] = $cart_detail->quantity;
-        Transaction_detail::create($transaction_detail);
+        $transaction_detail = Transaction_detail::create($transaction_detail)->id;
+        $transaction_detail = Transaction_detail::find($transaction_detail);
+        // return $transaction_detail;
         // menghapus cart_detail
-        $cart_detail->delete();
+        // $cart_detail->delete();
+        // return User::where('store_id', $store->id)->first();
+        User::where('store_id', $store->id)->first()->notify(new konfirmasiPembayaran($transaction_detail));
         return redirect()->route('home.success');
     }
 

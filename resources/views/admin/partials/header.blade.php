@@ -11,6 +11,25 @@
 
       <div class="navbar-right ">
         <ul class="nav navbar-nav">
+            {{-- Notification --}}
+            <li class="dropdown user-menu">
+                <button class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="d-none d-lg-inline-block">Notifikasi </span>
+                    <span class="badge badge-sm badge-light">{{ auth()->user()->unreadNotifications->count() }}</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  @foreach (auth()->user()->unreadNotifications as $notification)
+                  <li>
+                    <a href="{{ route('stores.transactions', auth()->user()->store_id) }}" style="color: black">
+                        {{ $notification->data['message'] }}
+                    </a>
+                  </li>
+                  <li class="dropdown-footer">
+                    <a class="text-center" href="#"> View All </a>
+                  </li>
+                  @endforeach
+                </ul>
+              </li>
           <!-- User Account -->
           <li class="dropdown user-menu">
             <button href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">

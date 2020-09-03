@@ -291,13 +291,13 @@ class StoreController extends Controller
 
     public function transactions($id)
     {
-        $this->data['transactions'] = Transaction::where('store_id', $id)->get();
+        $this->data['transactions'] = Transaction::where('store_id', $id)->orderBy('created_at', 'DESC')->get();
 
         $transaction_ids[] = 0;
         foreach ($this->data['transactions'] as $transaction) {
             $transaction_ids[] = $transaction->id;
         }
-        $this->data['transaction_details'] = Transaction_detail::whereIn('transaction_id', $transaction_ids)->get();
+        $this->data['transaction_details'] = Transaction_detail::whereIn('transaction_id', $transaction_ids)->orderBy('id', 'DESC')->get();
         // return $this->data;
         return view('admin.transactions.index', $this->data);
     }
