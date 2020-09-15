@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Toko Sumber Sekar</title>
+    <title>Sumbersekar-Mart</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ URL::asset('user/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('user/css/icomoon.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('user/css/style.css') }}">
+    <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
 </head>
 
 <body class="goto-here">
@@ -55,7 +56,7 @@
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}">Toko SumberSekar</a>
+            <a class="navbar-brand" href="{{ route('home') }}">Sumbersekar-Mart</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
                 aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
@@ -63,6 +64,33 @@
 
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
+                    @if (auth()->user())
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false"><span
+                            class="icon-bell"></span>{{ auth()->user()->unreadNotifications->where('data.for',  '!=',  'store')->count() }}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            @forelse (auth()->user()->unreadNotifications->where('data.for',  '!=',  'store') as $notification)
+                            @if ($notification->data['for'] == 'admin')
+                            @if (auth()->user()->role_id == '2' )
+                            <a class="dropdown-item" style="color: red" href="{{ route('stores.products', auth()->user()->store_id) }}">{{ $notification->data['message'] }}</a>
+                            @else
+                            <a class="dropdown-item" style="color: red" href="{{ route('stores.index') }}">{{ $notification->data['message'] }}</a>
+                            @endif
+                            @else
+                            <a class="dropdown-item" href="{{ route('home.transactions') }}">{{ $notification->data['message'] }}</a>
+                            @endif
+                            @empty
+                            <a class="dropdown-item" href="#">Tidak ada notifikasi :(</a>
+                            @endforelse
+                            @if (!auth()->user()->unreadNotifications->where('data.for', '!=',  'store')->isEmpty())
+<div align="center">
+                    <a  class="dropdown-item" style="font-weight: bold" href="{{ route('markAsRead', 'store') }}"> Tandai semua telah terbaca </a>
+                </div>
+                  @endif
+                        </div>
+                    </li>
+                    @endif
                     <li class="nav-item"><a href="{{ route('home') }}" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="{{ route('home.stores') }}" class="nav-link">Toko</a></li>
                     @if (Auth::user())
@@ -115,8 +143,8 @@
             <div class="row mb-5">
                 <div class="col-md">
                     <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Toko Sumber Sekar</h2>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
+                        <h2 class="ftco-heading-2">Sumbersekar-Mart</h2>
+                        <p> Bumdes Sekar Abadi Desa Sumbersekar</p>
                         <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
                             <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
                             <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -139,12 +167,12 @@
                     <div class="ftco-footer-widget mb-4">
                         <h2 class="ftco-heading-2">Help</h2>
                         <div class="d-flex">
-                            <ul class="list-unstyled mr-l-5 pr-l-3 mr-4">
-                                <li><a href="#" class="py-2 d-block">Shipping Information</a></li>
+                            {{-- <ul class="list-unstyled mr-l-5 pr-l-3 mr-4"> --}}
+                                {{-- <li><a href="#" class="py-2 d-block">Shipping Information</a></li>
                                 <li><a href="#" class="py-2 d-block">Returns &amp; Exchange</a></li>
                                 <li><a href="#" class="py-2 d-block">Terms &amp; Conditions</a></li>
-                                <li><a href="#" class="py-2 d-block">Privacy Policy</a></li>
-                            </ul>
+                                <li><a href="#" class="py-2 d-block">Privacy Policy</a></li> --}}
+                            {{-- </ul> --}}
                             <ul class="list-unstyled">
                                 <li><a href="#" class="py-2 d-block">FAQs</a></li>
                                 <li><a href="#" class="py-2 d-block">Contact</a></li>
@@ -157,12 +185,7 @@
                         <h2 class="ftco-heading-2">Have a Questions?</h2>
                         <div class="block-23 mb-3">
                             <ul>
-                                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain
-                                        View, San Francisco, California, USA</span></li>
-                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929
-                                            210</span></a></li>
-                                <li><a href="#"><span class="icon icon-envelope"></span><span
-                                            class="text">info@yourdomain.com</span></a></li>
+                                <li><span class="icon icon-map-marker"></span><span class="text">Sumbersekar, Kec. Dau, Malang, Jawa Timur</span></li>
                             </ul>
                         </div>
                     </div>
@@ -173,7 +196,7 @@
 
                     <p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>
+                        Copyright PPMFilkomUB &copy;<script>
                             document.write(new Date().getFullYear());
 
                         </script> All rights reserved | This template is made with <i class="icon-heart color-danger"

@@ -18,7 +18,7 @@ use App\Models\Store;
 use App\Models\Store_bank;
 use App\Models\Transaction;
 use App\Models\Transaction_detail;
-use App\Notifications\konfirmasiPembayaran;
+use App\Notifications\UserNotification;
 use App\User;
 
 class CartController extends Controller
@@ -307,11 +307,12 @@ class CartController extends Controller
         $transaction_detail['quantity'] = $cart_detail->quantity;
         $transaction_detail = Transaction_detail::create($transaction_detail)->id;
         $transaction_detail = Transaction_detail::find($transaction_detail);
-        // return $transaction_detail;
-        // menghapus cart_detail
-        // $cart_detail->delete();
-        // return User::where('store_id', $store->id)->first();
-        User::where('store_id', $store->id)->first()->notify(new konfirmasiPembayaran($transaction_detail));
+        $transaction = Transaction::find($transaction);
+        $transaction_detail['for'] = "store";
+        $transaction_detail['message'] = "pembayaran dengan kode transaksi " . $transaction->code . " menunggu untuk dilakukan konfirmasi!";
+        $store = Store::find($transaction->store_id);
+        User::find($store->user_id)->notify(new UserNotification($transaction_detail));
+        $cart_detail->delete();
         return redirect()->route('home.success');
     }
 

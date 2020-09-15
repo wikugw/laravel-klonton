@@ -31,7 +31,7 @@ class StoreRequest extends FormRequest
                 'province_id' => 'required|integer',
                 'city_id' => 'required|integer',
                 'postal_code' => 'required|integer|digits:5',
-                'phone' => 'required|numeric|digits_between:12,13',
+                'phone' => 'required|numeric',
             ];
         } else {
             return [

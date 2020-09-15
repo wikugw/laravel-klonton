@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Session;
 use Auth;
 use PDF;
+use App\Notifications\konfirmasiPembayaran;
+use App\Notifications\UserNotification;
+use App\User;
 
 class TransactionController extends Controller
 {
@@ -114,6 +117,11 @@ class TransactionController extends Controller
         $transaction = Transaction::findOrfail($id);
         $transaction->status = 2;
         $transaction->save();
+        $transaction_detail = Transaction_detail::where('transaction_id', $id)->first();
+        $transaction_detail['for'] = "user";
+        $transaction_detail['message'] = "Transaksi " . $transaction_detail->quantity . " " . $transaction_detail->product->name . " telah dikonfirmasi";
+        // return $transaction_detail->message;
+        User::find($transaction->user_id)->notify(new UserNotification($transaction_detail));
         Session::flash('success', 'Pembayaran telah dikonfirmasi, silahkan tambahkan nomor resi sudah ada');
         return redirect()->back();
     }
@@ -134,6 +142,10 @@ class TransactionController extends Controller
         $transaction->resi = $request->resi;
         $transaction->status = 3;
         $transaction->save();
+        $transaction_detail = Transaction_detail::where('transaction_id', $id)->first();
+        $transaction_detail['for'] = "user";
+        $transaction_detail['message'] = "Transaksi " . $transaction_detail->quantity . " " . $transaction_detail->product->name . " telah ditambahkan resi!";
+        User::find($transaction->user_id)->notify(new UserNotification($transaction_detail));
         Session::flash('success', 'Resi telah ditambahkan');
         return redirect()->route('stores.transactions', Auth::user()->store_id);
     }

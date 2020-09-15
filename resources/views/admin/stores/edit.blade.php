@@ -75,9 +75,10 @@
                                     {{-- nomor telepon --}}
                                     <div class="form-group">
                                         <label for="phone">Nomor Telepon</label>
+                                        <small>Rubah angka '0' dengan kode telepon, '62' untuk Indonesia</small>
                                         <input type="number" class="form-control" id="phone" name="phone"
                                         value="{{ old('phone') ? old('phone') : $address->phone }}"
-                                        placeholder="Masukkan Nomor Telepon">
+                                        placeholder="contoh 6282142708802">
                                         <span class="mt-2 d-block">* Wajib diisi.</span>
                                     </div>
                                 </div>

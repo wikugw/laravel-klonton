@@ -69,3 +69,8 @@ Route::get('/home/{id}', 'HomeController@category')->name('home.category');
 Route::get('getImage/{path}', function ($path) {
     return Storage::download('public/' . $path);
 })->where(['path' => '.*'])->name('gambar');
+
+Route::get('MarkAsRead/{for}', function ($for) {
+    auth()->user()->unreadNotifications->where('data.for', '!=',  $for)->markAsRead();
+    return redirect()->back();
+})->name('markAsRead');

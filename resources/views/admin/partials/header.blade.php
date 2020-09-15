@@ -15,19 +15,31 @@
             <li class="dropdown user-menu">
                 <button class="dropdown-toggle" data-toggle="dropdown">
                     <span class="d-none d-lg-inline-block">Notifikasi </span>
-                    <span class="badge badge-sm badge-light">{{ auth()->user()->unreadNotifications->count() }}</span>
+                    <span class="badge badge-sm badge-light">{{ auth()->user()->unreadNotifications->where('data.for', '!=' , 'user')->count() }}</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                  @foreach (auth()->user()->unreadNotifications as $notification)
+                  @forelse (auth()->user()->unreadNotifications->where('data.for', '!=' , 'user') as $notification)
                   <li>
-                    <a href="{{ route('stores.transactions', auth()->user()->store_id) }}" style="color: black">
+                      @if ($notification->data['for'] == 'admin')
+                      <a href="{{ route('stores.index') }}" style="color: black">
                         {{ $notification->data['message'] }}
+                        @else
+                        <a href="{{ route('stores.transactions', auth()->user()->store_id) }}" style="color: black">
+                            {{ $notification->data['message'] }}
+                      @endif
+
                     </a>
                   </li>
-                  <li class="dropdown-footer">
-                    <a class="text-center" href="#"> View All </a>
+                  @empty
+                  <li>
+                    <a class="text-center" href="#"> Tidak ada notifikasi </a>
                   </li>
-                  @endforeach
+                  @endforelse
+                  @if (!auth()->user()->unreadNotifications->where('data.for', '!=' , 'user')->isEmpty())
+                  <li class="dropdown-footer">
+                    <a class="text-center" href="{{ route('markAsRead', 'user') }}"> Tandai semua telah terbaca </a>
+                  </li>
+                  @endif
                 </ul>
               </li>
           <!-- User Account -->

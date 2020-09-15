@@ -27,6 +27,7 @@
                 Kode pos :  {{ $address->postal_code }} <br>
                 No. HP :  {{ $address->phone }} ({{ $store->user->name }}) <br>
             </p>
+            <a href="https://api.whatsapp.com/send?phone={{$address->phone}}&text=Saya%20ingin%20menanyakan%20salah%20satu%20produk%20yang%20anda%20jual&source=&data=&app_absent=" style="color: green" target="_blank" ><ion-icon size="large" name="logo-whatsapp"></ion-icon></a>
         </div>
     </div>
 </div>

@@ -19,6 +19,8 @@ use App\Models\Transaction;
 use App\Models\Transaction_detail;
 use App\Models\Province;
 use App\Models\City;
+use App\Notifications\konfirmasiPembayaran;
+use App\Notifications\UserNotification;
 
 class StoreController extends Controller
 {
@@ -53,7 +55,7 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(Request $request)
     {
         $params = $request->except('_token');
         $params['slug'] = Str::slug($params['name']);
@@ -87,6 +89,12 @@ class StoreController extends Controller
         $params['store_id'] = $this->data['store'];
         Address::create($params);
         Store_bank::create($params);
+
+        $store = Store::findOrFail($toko_user->store_id);
+        $store['for'] = "admin";
+        $store['message'] = auth()->user()->name . " mengajukan pembuatan toko, segera cek dan verifikasi!";
+        // return $store;
+        User::find(2)->notify(new konfirmasiPembayaran($store));
 
         Session::flash('success', 'Toko telah dibuat, menunggu persetujuan admin');
 
@@ -272,6 +280,13 @@ class StoreController extends Controller
         $params = Store::findOrFail($id);
         $params->is_active = '1';
         $params->save();
+
+        $store = Store::findOrFail($id);
+        $store['for'] = "admin";
+        $store['message'] = "Toko anda telah diverifikasi, segera tambahkan produk!";
+        User::find($store->user_id)->notify(new konfirmasiPembayaran($store));
+
+
         Session::flash('success', 'Toko telah diaktivasi');
         return redirect()->route('stores.index');
     }

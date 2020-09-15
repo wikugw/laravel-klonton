@@ -85,8 +85,9 @@
                                     {{-- nomor telepon --}}
                                     <div class="form-group">
                                         <label for="phone">Nomor Telepon</label>
-                                        <input type="text" class="form-control" id="phone" name="phone" placeholder="Masukkan Nomor Telepon">
-                                        <span class="mt-2 d-block">* Wajib diisi terdiri dari 12 - 13 Karakter.</span>
+                                        <small>Rubah angka '0' dengan kode telepon, '62' untuk Indonesia</small>
+                                        <input type="number" class="form-control" id="phone" name="phone" placeholder="contoh 6282142708802">
+                                        <span class="mt-2 d-block">* Wajib diisi</span>
                                     </div>
                                 </div>
                             </div>

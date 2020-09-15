@@ -114,7 +114,7 @@
                             <th>Nama Service</th>
                             <th>Harga Ongkir</th>
                             <th>Total Harga</th>
-                            <th>Estimasi Pengiriman</th>
+                            <th>Estimasi Pengiriman (Hari)</th>
                             <th>Note</th>
                             <th>Action</th>
                         </tr>

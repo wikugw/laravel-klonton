@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
+use App\Models\Store;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\Transaction_detail;
 
 class konfirmasiPembayaran extends Notification
 {
@@ -17,9 +17,9 @@ class konfirmasiPembayaran extends Notification
      *
      * @return void
      */
-    public function __construct(Transaction_detail $transaction_detail)
+    public function __construct(Store $store)
     {
-        $this->transaction_detail = $transaction_detail;
+        $this->store = $store;
     }
 
     /**
@@ -56,7 +56,8 @@ class konfirmasiPembayaran extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'pembelian dengan kode ' . $this->transaction_detail->transaction->code . ' memerlukan konfirmasi'
+            'for' => $this->store->for,
+            'message' =>  $this->store->message
 
         ];
     }

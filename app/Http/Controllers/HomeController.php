@@ -13,6 +13,9 @@ use App\Models\Transaction;
 use App\Models\Transaction_detail;
 use App\Models\Store;
 use App\Models\Address;
+use App\Notifications\konfirmasiPembayaran;
+use App\Notifications\UserNotification;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -112,6 +115,11 @@ class HomeController extends Controller
         $transaction = Transaction::findOrFail($id);
         $transaction->status = 4;
         $transaction->save();
+        $transaction_detail = Transaction_detail::where('transaction_id', $id)->first();
+        $transaction_detail['for'] = "store";
+        $transaction_detail['message'] = "barang dengan kode transaksi " . $transaction->code . " telah diterima!";
+        $store = Store::find($transaction->store_id);
+        User::find($store->user_id)->notify(new UserNotification($transaction_detail));
         return redirect()->route('home.transactions');
     }
 

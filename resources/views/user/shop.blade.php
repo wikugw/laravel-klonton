@@ -8,8 +8,7 @@ background-image: url(https://images.unsplash.com/photo-1584192134994-726100c5d9
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
             <h1 class="mb-0 bread" style=" text-shadow: 0 1px 0 darkgrey; ">Sumbersekar-Mart</h1>
-              <p class="breadcrumbs py-1" style="font-size: 16px; text-shadow: 0 1px 0 darkgrey; font-weight: bold; text-transform: none; color: white ">Bumdes Sekar Abadi Desa Sumbersekar</p>
-              <p class="breadcrumbs" style="font-size: 14px; text-shadow: 0 1px 0 darkgrey; font-weight: bold; text-transform: none; color: white">SUMBERSEKAR - MART merupakan kegiatan pengabdian kepada masyarakat yang di lakukan oleh kolaborasi dosen FILKOM UNIVERSITAS BRAWIJAYA</p>
+              <p class="breadcrumbs py-1" style="font-size: 16px; text-shadow: 0 1px 0 darkgrey; font-weight: bold; text-transform: none; color: white ">Bumdes Sekar Abadi <br> Desa Sumbersekar</p>
           </div>
         </div>
       </div>
