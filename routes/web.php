@@ -55,6 +55,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/success', 'HomeController@success')->name('home.success');
+    Route::get('/thanks', 'HomeController@thanks')->name('home.thanks');
     Route::get('/transactions', 'HomeController@transactions')->name('home.transactions');
     Route::get('/receive/{id}', 'HomeController@receive')->name('home.receive');
 });

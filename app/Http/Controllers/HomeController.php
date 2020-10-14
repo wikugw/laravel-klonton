@@ -199,4 +199,9 @@ class HomeController extends Controller
         // return $this->data;
         return view('user.product', $this->data);
     }
+
+    public function thanks()
+    {
+        return view('user.thanks');
+    }
 }

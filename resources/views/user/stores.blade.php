@@ -9,11 +9,19 @@
                 @forelse ($store_addresses as $store_address)
                     <div class="col-sm-6 col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
+                        @if ($store_address->store->profile == '')
+                        <a href="#" class="img-prod"><img class="img-fluid"
+                            src="{{ route('gambar', ['path' => 'profile_toko/kosong.png'])  }}"
+                            alt="Colorlib Template" style="height: 300px; object-fit: contain" width="100%">
+                            <div class="overlay"></div>
+                        </a>
+                        @else
                         <a href="#" class="img-prod"><img class="img-fluid"
                             src="{{ route('gambar', ['path' => $store_address->store->profile])  }}"
                             alt="Colorlib Template" style="height: 300px; object-fit: contain" width="100%">
                             <div class="overlay"></div>
                         </a>
+                        @endif
                         <div class="text py-3 px-3">
                             <h3 style="font-weight: bold"><a href="#">{{ $store_address->store->name }}</a></h3>
                             <div class="d-flex">

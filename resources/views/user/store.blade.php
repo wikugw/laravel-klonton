@@ -4,8 +4,13 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-6 mb-5 ftco-animate fadeInUp ftco-animated">
+            @if ($store->profile == '')
+            <a href="{{url('profile_toko/kosong.png')}}" class="image-popup"><img src="{{ route('gambar', ['path' => 'profile_toko/kosong.png'])  }}" class="img-fluid"
+                alt="Colorlib Template" style="height: 100%; width: 100%"></a>
+            @else
             <a href="{{url($store->profile)}}" class="image-popup"><img src="{{ route('gambar', ['path' => $store->profile])  }}" class="img-fluid"
-                    alt="Colorlib Template"></a>
+                alt="Colorlib Template"></a>
+            @endif
         </div>
         <div class="col-lg-6 product-details pl-md-5 ftco-animate fadeInUp ftco-animated">
             <h3>{{ $store->name }}</h3>
